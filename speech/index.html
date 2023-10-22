@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Speech Recognition</title>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="icon" href="icon.jpg">
+    </head>
+    <body>
+        <section>
+            <h1>Speech<br> Recognition</h1>
+            <div class="hi">
+            <h4 id="hi"></h4>
+            </div>
+            <div class="container">
+              <div class="texts">
+              </div>
+            </div>
+          </section>
+          <script src="script.js"></script>
+          <script>
+            function alertfunction()
+            {
+              let name = prompt("Please enter your name", "");
+              if (name != null)
+              {
+                document.getElementById("hi").innerHTML = "👋Hello " + name + "!Welcome to Speech Recognition version 0.5sp!"
+              }
+            }
+            alertfunction();
+          </script>
+    </body>
+</html>

@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to Text Converter</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="logo.jpg">
+    </head>
+    <body>
+        
+        <div class="container">
+            <div class="inside">
+        <div>
+            <h1
+                class="font-medium leading-tight text-center"
+                align="center"
+            >
+                Image to text converter
+            </h1>
+            <p id="hi" align="center" style="font-family: cursive; font-size: large;"></p>
+
+            <hr class="border-slate-200 border-2 mt-5 mb-10" />
+
+            <div class="sm:grid grid-cols-2 gap-4" align="center">
+                <img
+                    src="yeah.jpg"
+                    class="image m-2 sm:m-0"
+                    width="250"
+                />
+                <!--here-->
+    
+                <form class="form">
+                    <input
+                        type="file"
+                        name="image"
+                        accept="image/*"
+                        class="form-control block w-full px-3 py-1.5 text-base text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    />
+                    <input
+                        type="submit"
+                        value="Upload Image"
+                        class="inline-block cursor-pointer px-6 py-2.5 mt-2 border-2 border-blue-600 text-blue-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
+                    />
+                </form>
+            </div>
+
+            <hr class="border-slate-200 border-2 mt-5 mb-10" />
+    
+            <div class="grid grid-cols-2 gap-4" align="center">
+                <div>
+                    <button
+                        type="button"
+                        class="btn-convert inline-block cursor-pointer px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+                    >
+                        Convert image to text
+                    </button>
+    
+                    <span class="progress text-gray-400 ml-2 hidden" style="font-family: cursive;"></span>
+                </div>
+            </div>
+    
+            <div class="content">
+                <p class="text italic"></p>
+            </div>
+        </div>
+    </div>
+</div>
+        <script src="back.min.js"></script>
+        <script src="script.js"></script>
+        <script>
+            function alertfunction()
+              {
+                 let name = prompt("Please enter your name", "");
+                 if (name != null)
+                 {
+                    document.getElementById("hi").innerHTML = "👋Hello " + name + "! Nice to meet you!";
+                 }
+              }
+              alert("This app just use English!\nDon't give this app another language!\nThank you! 🤗");
+              alertfunction();
+          </script>
+    </body>
+</html>
