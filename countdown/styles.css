@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Moon+Dance&family=Tangerine:wght@700&display=swap');
+
+
+body {
+    background-color: rgba(14, 13, 13, 0.938);
+    font-family: 'Moon Dance', cursive;
+    background-size: 100%;
+    overflow: hidden;
+}
+.container {
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    height:75vh;
+}
+  
+  
+table tr td {
+    padding:5px 30px;
+    text-align:center;
+    margin:20px 40px;
+    font-size: 250%;
+    font-weight: bolder;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+h1 {
+    font-size: 750%;
+    color: rgba(255, 255, 255, 0.75);
+    font-family: 'Tangerine', cursive;
+}
+
+.a {
+    width: 10%;
+    position: absolute;
+    bottom: 3%;
+    left: 2%;
+}
+
+.b {
+    width: 25%;
+    position: absolute;
+    top: 0%;
+    right: -4%;
+}
+
+.c {
+    width: 20%;
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+    transform: rotate(90deg) scaleY(-1);
+}
+
+.d {
+    width: 25%;
+    position: absolute;
+    top: 0%;
+    left: -2%;
+    transform: scaleX(-1);
+}

@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="ima.png">
+</head>
+
+<body>
+    <div align="center">
+    <div class="container" align="center">
+        <form>
+            <div>
+                <input id="city-search" type="text" class="form-control" list="serch" placeholder="Enter a location for Weather ...">
+                <datalist id="serch">
+                    <option value="McMurdo Station, ATARCTICA"></option>
+                    <option value="Hue, Vietnam"></option>
+                    <option value="Hanoi, Vietnam"></option>
+                    <option value="Ho Chi Minh, Vietnam"></option>
+                    <option value="Hoi An, Vietnam"></option>
+                    <option value="Tam Ky, Vietnam"></option>
+                    <option value="Quang Ngai, Vietnam"></option>
+                    <option value="Da Nang, Vietnam (Turan)"></option>
+                    <option value="Quang Tri, Vietnam"></option>
+                    <option value="Kontum, Vietnam"></option>
+                    <option value="Pleiku, Vietnam"></option>
+                    <option value="Vung Tau, Vietnam"></option>
+                    <option value="Bangkok, Thailan"></option>
+                    <option value="Tha Maka, Thailan"></option>
+                    <option value="Banglen, Thailan"></option>
+                    <option value="Hong Kong, Hongkong"></option>
+                    <option value="Yung Shue Wan, Hongkong"></option>
+                    <option value="Taipei, Taiwan"></option>
+                    <option value="Sydney, Australia"></option>
+                    <option value="Melbourne, Australia"></option>
+                    <option value="Broken Hill, Australia"></option>
+                    <option value="Darwin, Australia"></option>
+                    <option value="La Peca, Peru"></option>
+                    <option value="Lima, Peru"></option>
+                    <option value="Santiago de Cuba, Cuba"></option>
+                    <option value="Santa Clara, Cuba"></option>
+                    <option value="Havana, Cuba"></option>
+                    <option value="Houston, USA"></option>
+                    <option value="Denver, USA"></option>
+                    <option value="Miami, USA"></option>
+                    <option value="San Jose, USA"></option>
+                    <option value="Rapid City, USA"></option>
+                    <option value="Coos Bay, USA"></option>
+                    <option value="Columbus, USA"></option>
+                    <option value="Austin, USA"></option>
+                    <option value="Phoenix, USA"></option>
+                    <option value="Chicago, USA"></option>
+                    <option value="New York, USA"></option>
+                    <option value="Washington DC, USA"></option>
+                    <option value="ST Louis, USA"></option>
+                    <option value="Los Angeles, USA"></option>
+                    <option value="Toronto, Canada"></option>
+                    <option value="Ottawa, Canada"></option>
+                    <option value="London, UK"></option>
+                    <option value="Bradford, UK"></option>
+                    <option value="Cambridge, UK"></option>
+                    <option value="Chester, UK"></option>
+                    <option value="Lincoln, UK"></option>
+                    <option value="Liverpool, UK"></option>
+                    <option value="Shanghai, Chinese"></option>
+                    <option value="Beijing, Chinese"></option>
+                    <option value="Wanxiang, Chinese"></option>
+                    <option value="Nanchong, Chinese"></option>
+                    <option value="Seoul, Korea"></option>
+                    <option value="Busan, Korea"></option>
+                    <option value="Ulchin, Korea"></option>
+                    <option value="Changyon, Korea"></option>
+                    <option value="Mokpo, Korea"></option>
+                    <option value="Pyongyang, Korea"></option>
+                    <option value="Kwaksan, Korea"></option>
+                    <option value="Berlin, Germany"></option>
+                    <option value="Hamburg, Germany"></option>
+                    <option value="Moscow, Russia"></option>
+                    <option value="Saint Petersburg, Russia"></option>
+                    <option value="Paris, France"></option>
+                    <option value="Tokyo, Japan"></option>
+                    <option value="Rome, Italy"></option>
+                    <option value="Milan, Italy"></option>
+                    <option value="Turin, Italy"></option>
+                    <option value="Cagliari, Italy"></option>
+                    <option value="Palermo, Italy"></option>
+                    <option value="Florence, Italy"></option>
+                    <option value="Genoa, Italy"></option>
+                    <option value="Porto, Portogal"></option>
+                    <option value="Madrid, Spain"></option>
+                    <option value="Barcelona, Spain"></option>
+                    <option value="Tortosa, Spain"></option>
+                    <option value="Olot, Spain"></option>
+                    <option value="Huesca, Spain"></option>
+                    <option value="Soria, Spain"></option>
+                    <option value="Stockholm, Sweden"></option>
+                    <option value="Wellington, New Zealand"></option>
+                    <option value="Ankara, Turkey"></option>
+                    <option value="Brussels, Belgium"></option>
+                    <option value="Warsaw, Poland"></option>
+                    <option value="Minsk, Belarus"></option>
+                    <option value="Singapore"></option>
+                    <option value="Dubai"></option>
+                  </datalist>
+                <div>
+                    <button id="btn-city-search" type="button">Search</button>
+                </div>
+            </div>
+        </form>
+        <div>
+            <h1 id="city-name">City</h1>
+            <h2>Temperature: <span id="current-temp">00.00</span>&deg;C</h2>
+            <h5>feels like: <span id="feels-like-temp">00.00</span>&deg;C</h5>
+            <p id="weather-type" style="font-size: 120%;">Weather</p>
+            <h6 style="font-size: 80%;">Humidity: <span id="hum">00.00</span> %</h6>
+            <h5>Wind Speed: <span id="wind-speed">00.00</span> m/s</h5>
+            <h5>Wind Speed: <span id="wind-speedkm">00.00</span> km/h</h5>
+        </div>
+    </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  background-image: url('back.jpg');
+  background-size: 100%;
+  background-color: rgb(124, 122, 122);
+}
+#canvas {
+  border: none;
+  margin-top: 20px;
+  outline: none;
+}
+h1{
+  color: rgba(165, 165, 165, 0.733);
+}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="logo.jpg">
+    <title>QR Code Generator</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>QR Code Generator</div>
+        </div>
+        <input type="text" placeholder="Enter link or add some text" class="text-field">
+        <ul class="mode">
+            <li class="active">Basic</li>
+            <li>Medium</li>
+            <li>Advance</li>
+        </ul>
+        <button class="gen">Generate</button>
+        <br>
+        <input type="file" class="file-selector" accept=".png, .jpg, .jpeg, .svg">
+        <div class="qr-container">Qr Code</div>
+        <div class="download">
+            <span style="font-size: 120%; font-weight: bold;">Download: </span>
+            <button>PNG</button>
+            <button>JPG</button>
+        </div>
+    </div>
+<script src="qr-code-styling.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

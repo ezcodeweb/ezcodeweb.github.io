@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">  
+    <title></title>
+    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <div data-lefticons>
+      <a data-tools="zoom" title="Pan/Zoom Tool">
+        <img src="zoom.svg">
+      </a>
+      <a data-tools="select" title="Select">
+        <img src="select.svg">
+      </a>
+      <a data-tools="pencil" title="Pencil">
+        <img src="pencil.svg">
+      </a>
+      <a data-tools="brush" title="Brush">
+        <img src="brush.svg">
+      </a>
+      <a data-tools="eraser" title="Eraser">
+        <img src="eraser.svg">
+      </a>
+      <a data-tools="lassoerase" title="Lasso Eraser">
+        <img src="eraser3.svg">
+      </a>
+    </div>
+    
+    <!-- right side -->
+    <div data-righticons>
+      <a data-play="play" title="Play" style="display: none;">
+        <img src="">
+      </a>
+      <a data-export="pngframe" title="Export Frame As PNG" onclick="downloadPNGWithFilters()">
+        <img src="saveimage2.svg">
+      </a>
+      <a data-clearcanvas title="Clear canvas" onclick="clearcanvas()">
+        <img src="broom.svg">
+      </a>
+    </div>
+    
+    <!-- main menu -->
+    <div data-topmenu>
+      <div data-toolsmenu style="display: none;">    
+        <div data-toolsoption="zoom">
+          <span style="display: none;">
+            <h1 data-projectname>My Project</h1>
+          </span>
+        </div>
+        <div data-toolsoption="pencil"></div>
+        <div data-toolsoption="brush"></div>
+        <div data-toolsoption="eraser"></div>
+        <div data-toolsoption="brushsize">
+          Brush size: <input id="brushSize" type="number" class="numinhead" min="0" value="20" step="1">
+        </div>
+      </div>
+    </div>
+    
+    <!-- canvas -->
+    <div class="dialog" data-canvasbg>
+      <div data-canvas>
+        <canvas id="canvas" width="1280" height="800"></canvas>
+      </div>
+      <div data-toolsoption="pencil"></div>
+    <div data-toolsoption="brush"></div>
+    <div data-toolsoption="lasso"></div>
+    <div data-toolsoption="rect"></div>
+    <div data-toolsoption="ellipse"></div>
+    <div data-toolsoption="line"></div>
+    <div data-toolsoption="triangle"></div>
+    <div data-toolsoption="splatter"></div>
+    <div data-toolsoption="spray"></div>
+    <div data-toolsoption="eraser"></div>
+    <div data-toolsoption="fill">
+      <a data-triggertool="colorpicker">
+        <img src="https://michaelsboost.com/TouchDrawer/svgs/color.svg">
+      </a>
+    </div>
+    <div data-toolsoption="filters">
+      <a data-clear="filters" title="Clear Filters">
+        <img src="">
+      </a>
+      <a data-filter="blur" title="Blur">
+        <img src="">
+      </a>
+      <a data-filter="hue" title="Hue">
+        <img src="" style="filter: brightness(1);">
+      </a>
+      <a data-filter="brightness" title="Brightness">
+        <img src="">
+      </a>
+      <a data-filter="contrast" title="Contrast">
+        <img src="">
+      </a>
+      <a data-filter="saturation" title="Saturation">
+        <img src="">
+      </a>
+      <a data-filter="grayscale" title="Grayscale">
+        <img src="" style="filter: brightness(1.25) grayscale(1);">
+      </a>
+      <a data-filter="sepia" title="Sepia">
+        <img src="" style="filter: brightness(1) sepia(1);">
+      </a>
+      <a data-filter="invert" title="Invert">
+        <img src="">
+      </a>
+    </div>
+    <div data-toolsoption="brushsize">
+      strokeLineCap: 
+      <select id="brushStrokeCap">
+        <option value="butt">butt</option>
+        <option value="round" selected>round</option>
+        <option value="square">square</option>
+      </select>
+      strokeLineJoin: 
+      <select id="brushStrokeLineJoin">
+        <option value="bevel">bevel</option>
+        <option value="round" selected>round</option>
+        <option value="miter">miter</option>
+      </select>
+      Miter: <input id="brushMiter" type="number" class="numinhead" min="1" value="1" step="1">
+      Brush size: <input id="brushSize" type="number" class="numinhead" min="0" value="20" step="1">
+    </div>
+    <div data-toolsoption="blur">
+      Blur:
+      <input id="blurfilter" class="filterval numinhead" type="number" min="0" step="0.1" value="0">
+    </div>
+    <div data-toolsoption="hue">
+      Hue:
+      <input id="huefilter" class="filterval" type="range" min="0" step="1" value="0" max="360">
+    </div>
+    <div data-toolsoption="brightness">
+      Brightness:
+      <input id="brightnessfilter" class="filterval numinhead" type="number" min="0" step="0.01" value="1">
+    </div>
+    <div data-toolsoption="contrast">
+      Contrast:
+      <input id="contrastfilter" class="filterval numinhead" type="number" min="0" step="0.01" value="1">
+    </div>
+    <div data-toolsoption="saturation">
+      Saturation:
+      <input id="saturatefilter" class="filterval numinhead" type="number" min="0" step="0.01" value="1">
+    </div>
+    <div data-toolsoption="grayscale">
+      Grayscale:
+      <input id="grayscalefilter" class="filterval" type="range" min="0" step="0" value="0" max="100">
+    </div>
+    <div data-toolsoption="sepia">
+      Sepia:
+      <input id="sepiafilter" class="filterval" type="range" min="0" step="1" value="0" max="100">
+    </div>
+    <div data-toolsoption="invert">
+      Invert:
+      <input id="invertfilter" class="filterval" type="range" min="0" step="1" value="0" max="100">
+    </div>
+  </div>
+</div>
+    
+    <!-- dialogs -->
+    <div data-dialogs>
+      <div class="dialog" data-dialog="new">
+        <div style="display: flex; justify-content: space-between;">
+          <input data-new="width" type="number" min="1" value="1280" placeholder="width">
+          <input data-new="height" type="number" min="1" value="800" placeholder="height">
+        </div>
+      </div>
+      <div class="dialog colorpicker" data-dialog="colorpicker">
+        <div class="fill-pickr pickr"></div>
+        <div class="stroke-pickr pickr"></div>
+      </div>
+      <div class="dialog" data-dialog="play"></div>
+    </div>
+    
+    <!-- bottom menu -->
+    <div data-bottommenu>
+      <span>
+        <a data-undo title="Undo" onclick="undo()">
+          <img src="undo.svg">
+        </a>
+      </span>
+    
+      <span data-frames>
+        <ul></ul>
+      </span>
+    
+      <span>
+        <a data-redo title="Redo" onclick="redo()">
+          <img src="redo.svg">
+        </a>
+      </span>
+    </div>
+    
+    <div style="display: none;">
+      <input type="file" accept="image/svg+xml, application/json" id="openfile" onchange="loadfile(this)">
+    </div>
+    
+    <script src="a.js"></script>
+    <script src="b.js"></script>
+    <script src="c.js"></script>
+    <script src="d.js"></script>
+    <script src="e.js"></script>
+    <script src="f.js"></script>
+    <script src="g.js"></script>
+    <script src="h.js"></script>
+    <script src="i.js"></script>
+    <script src="j.js"></script>
+    <script src="k.js"></script>
+    <script src="l.js"></script>
+    <script src="m.js"></script>
+    <script src="n.js"></script>
+    <script src="o.js"></script>
+    <script src="p.js"></script>
+    <script src="q.js"></script>
+    <script src="r.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

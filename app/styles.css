@@ -1,0 +1,36 @@
+body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)), url(background.png);
+    background-size: cover;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.container{
+    margin-top: 2%;
+    margin-bottom: 5%;
+    font-size: x-large;
+    color: rgb(247, 247, 247);
+    background-color: rgba(123, 123, 123, 0.3);
+    border-radius: 15px;
+    min-width: 300px;
+    max-width: 350px;
+}
+
+input{
+    min-width: 25%;
+    min-height: 20px;
+    font-size: large;
+    border-radius: 5px;
+}
+
+button{
+    min-width: 15%;
+    font-size: large;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.inside{
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
