@@ -1,0 +1,2679 @@
+
+
+
+<!DOCTYPE html>
+<html>
+    <!-- header setup -->
+    <head>
+        <!-- standard setup -->
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <!-- import some nice google fonts -->
+        <link href="styles1.css" rel="stylesheet">
+        <link href="styles2.css" rel="stylesheet">
+        <!-- name of the game -->
+        <title>Ninja run run</title>
+        <!-- some quick stylin' -->
+        <style>
+            body {
+              background: black;
+              color: #075AAD;
+              overflow: hidden;
+              display: flex;
+              height: 100vh;
+              align-items: center;
+              justify-content: center;
+              margin: 0;
+              padding: 0;
+            }
+            /* canvas takes up the whole screen */
+            canvas {
+                width: min(100vw, 100vh);
+                height: auto !important;
+                z-index: 0;
+            }
+            /* ignore the ridiculous println stylin' */
+            .print {
+                display: none;
+                position: fixed;
+                top: 0;
+                background: rgb(0, 0, 0, 0.5);
+                z-index: 1;
+                width: 100vw;
+                height: 20vh;
+                resize: vertical;
+                color: rgb(245, 245, 245, 0.5);
+                overflow-x: hidden;
+                overflow-y: auto;
+                font-size: 3vmin;
+                font-family: "Josefin Sans";
+                user-select: text;
+            }
+            .close {
+                position: absolute;
+                top: 0;
+                right: 0;
+                margin: 1vmin;
+                width: 10vmin;
+                height: 5vmin;
+                background: none;
+                border: 1px rgb(245, 245, 245, 0.5);
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 4vmin;
+                color: rgb(245, 245, 245, 0.5);
+                z-index: 1;
+                transition: 0.5s;
+                font-family: 'Josefin Sans';
+                user-select: none;
+            }
+            .close:hover {
+                width: 15vmin;
+                color: rgba(57, 128, 122, 0.625);
+            }
+            .close:active {
+                color: rgb(245, 245, 245, 0.75);
+            }
+            .line {
+                margin: 1vmin;
+                z-index: 1;
+            }
+            .hyper{
+              position: absolute;
+              top: 15px;
+              left: 15px;
+              width: 100px;
+              height: 100px;
+              text-align: center;
+              font-size: 200%;
+              border-style: ridge;
+              color: gray;
+            }
+            .aa{
+              position: absolute;
+              top: 5px;
+              left: 15px;
+              margin-top: 5px;
+            }
+            .ab{
+              position: absolute;
+              top: 45px;
+              left: 15px;
+            }
+            .ac{
+              position: absolute;
+              top: 85px;
+              left: 15px;
+            }
+            .ad{
+              position: absolute;
+              top: 125px;
+              left: 15px;
+            }
+            .ae{
+              position: absolute;
+              top: 165px;
+              left: 15px;
+            }
+            a{
+              color: rgba(202, 202, 202, 0.699);
+              font-size: large;
+              font-weight: bold;
+              text-decoration: none;
+            }
+        </style>
+    </head>
+    <!-- body -->
+    <body>
+        <!-- canvas [where the magic happens] -->
+        <canvas></canvas>
+        <div class = "print">
+            <button class = "close">close</button>
+        </div>
+        <!-- all variables at global scope -->
+        <script>
+            var __font_size, __font, canvas, ctx, width, height, draw, CORNER, CENTER, CLOSE, LEFT, RIGHT, UP, DOWN, SQUARE, ROUND, PROJECT, MITER, BEVEL, DEGREES, RADIANS, left, right, data, v, frameCount, frameRate, millis, debug, equal, day, month, year, hour, minute, seconds, enableContextMenu, smooth, cursor, angleMode, max, min, mag, dist, exp, norm, map, lerp, random, constrain, log, sqrt, sq, pow, abs, floor, ceil, round, sin, cos, tan, acos, asin, atan, atan2, radians, degrees, fill, stroke, background, color, noStroke, noFill, comp, rect, clear, text, rectMode, ellipseMode, createFont, textAlign, textFont, textSize, strokeCap, strokeJoin, strokeWeight, pushMatrix, popMatrix, translate, rotate, scale, beginShape, vertex, curveVertex, bezierVertex, endShape, curve, bezier, arc, ellipse, quad, triangle, point, line, textWidth, textAscent, textDescent, get, mask, image, mousePressed, mouseReleased, mouseScrolled, mouseClicked, mouseOver, mouseOut, mouseMoved, mouseIsPressed, mouseButton, mouseX, mouseY, pmouseX, pmouseY, keyPressed, keyReleased, keyTyped, key, keyIsPressed, keyCode, resetMatrix, clearLogs, println, clear, bezierPoint, bezierTangent, vec, fps
+        </script>
+        <!-- improved ski.js -->
+        <script type = 'module'>
+            //library [
+            //some setup [
+            const logger = document.getElementsByClassName('print')[0]
+            canvas = document.getElementsByTagName('canvas')[0]
+            ctx = canvas.getContext('2d')
+            width = canvas.width = 600
+            height = canvas.height = 600
+            draw = () => {}
+            //]
+            //a bunch of constants [
+            CORNER = new Number(0)
+            CENTER = new Number(1)
+            CLOSE = new Boolean(true)
+            LEFT = new Number(37)
+            RIGHT = new Number(39)
+            UP = new Number(38)
+            DOWN = new Number(40)
+            SQUARE = new String('butt')
+            ROUND = new String('round') 
+            PROJECT = new String('square')
+            MITER = new String('miter') 
+            BEVEL = new String('bevel') 
+            DEGREES = new String('deg') 
+            RADIANS = new String('rad') 
+            left = new Number(0)
+            right = new Number(2)
+            //]
+            //general data to be stored
+            data = {
+                rect: 1,
+                ellipse: 1,
+                height: 12,
+                angle: 'deg',
+                date: Date.now(),
+                rate: 60,
+                millis: Date.now(),
+                last: Date.now(),
+                
+            }
+            //fps
+            fps = 60
+            //vector array
+            v = []
+            //animation [
+            frameCount = 0
+            frameRate = rate => data.rate = rate
+            millis = () => data.millis
+            //]
+            //miscellaneous [
+            debug = function(){
+                console.debug(...arguments)
+            }
+            equal = function(){
+                console.assert(...arguments)
+            }
+            day = () => new Date().getDate()
+            month = () => new Date().getMonth()
+            year = () => new Date().getYear()
+            hour = () => new Date().getHours()
+            minute = () => new Date().getMinutes()
+            seconds = () => new Date().getSeconds()
+            enableContextMenu = () => canvas.oncontextmenu = true
+            cursor = name => document.body.style.cursor = name
+            smooth = () => {
+                ctx.imageSmoothingEnabled = true
+                ctx.imageSmoothingQuality = 'high'
+            }
+            angleMode = mode => data.angle = mode
+            clearLogs = () => logger.innerHTML = '<button class = "close">close</button>'
+            println = function(){
+                let msg = {...arguments}
+                logger.style.display = "block"
+                logger.innerHTML += `<div class = 'line'>
+                    ${(msg => {
+                        let string = ''
+                        for(let i in msg){
+                            string += msg[i] + ' '
+                        }
+                        return string.trim()
+                    })(msg)}
+                </div>`
+            }
+            //]
+            //math [
+            //complex[ish] math
+            max = (n, N) => n < N ? N : n
+            min = (n, N) => n < N ? n : N
+            mag = (a, b) => Math.sqrt((a ** 2) + (b ** 2))
+            dist = (x, y, X, Y) => mag(x - X, y - Y)
+            exp = n => Math.E ** n
+            norm = (val, low, high) => (val - low) / (high - low)
+            map = (val, s, e, S, E) => S + (E - S) * norm(val, s, e)
+            lerp = (val, targ, amt) => ((targ - val) * amt) + val
+            random = (min, max) => max ? (Math.random() * (max - min)) + min : min ? (Math.random() * min) : Math.random()
+            constrain = (val, low, high) => min(max(val, low), high)
+            //simple math
+            log = n => Math.log(n)
+            sqrt = n => Math.sqrt(n)
+            sq = n => n ** 2
+            pow = (n, a) => n ** a
+            abs = n => n < 0 ? -n : n
+            floor = n => n | 0
+            ceil = n => (n | 0) + 1
+            round = n => n - (n | 0) < 0.5 ? (n | 0) : (n | 0) + 1
+            //trig
+            sin = ang => Math.sin(degrees(ang))
+            cos = ang => Math.cos(degrees(ang))
+            tan = ang => Math.tan(degrees(ang))
+            acos = ang => Math.acos(degrees(ang))
+            asin = ang => Math.asin(degrees(ang))
+            atan = ang => Math.atan(degrees(ang))
+            radians = ang => ang * (180 / Math.PI)
+            degrees = ang => ang * (Math.PI / 180)
+            atan2 = (y, x) => Math.atan2(y, x)
+            bezierPoint = (a, b, c, d, t) => (1 - t) * (1 - t) * (1 - t) * a + 3 * (1 - t) * (1 - t) * t * b + 3 * (1 - t) * t * t * c + t * t * t * d
+            bezierTangent = (a, b, c, d, t) => (3 * t * t * (-a + 3 * b - 3 * c + d) + 6 * t * (a - 2 * b + c) + 3 * (-a + b))
+            //]
+            //colorin' [
+            fill = function(r, g, b, a) {
+                switch(arguments.length){
+                    case 1:
+                        ctx.fillStyle = typeof r === 'string' ? r : `rgb(${r}, ${r}, ${r}, 255)`
+                    break;
+                    case 2:
+                        ctx.fillStyle = `rgb(${r}, ${r}, ${r}, ${g / 255})`
+                    break;
+                    case 3:
+                        ctx.fillStyle = `rgb(${r}, ${g}, ${b}, 255)`
+                    break;
+                    case 4:
+                        ctx.fillStyle = `rgb(${r}, ${g}, ${b}, ${a / 255})`
+                }
+            }
+            color = function (r, g, b, a) {
+                switch(arguments.length){
+                    case 1:
+                        return `rgba(${r}, ${r}, ${r}, 255)`
+                    break
+                    case 2:
+                        return `rgba(${r}, ${r}, ${r}, ${g / 255})`
+                    break
+                    case 3:
+                        return `rgba(${r}, ${g}, ${b}, 255)`
+                    break;
+                    case 4:
+                        return `rgba(${r}, ${g}, ${b}, ${a / 255})`
+                    break
+                }
+            }
+            stroke = function(r, g, b, a) {
+                switch(arguments.length){
+                    case 1:
+                        ctx.strokeStyle =  typeof r === 'string' ? r : `rgb(${r}, ${r}, ${r}, 255)`
+                    break;
+                    case 2:
+                        ctx.strokeStyle = `rgb(${r}, ${r}, ${r}, ${g / 255})`
+                    break;
+                    case 3:
+                        ctx.strokeStyle = `rgb(${r}, ${g}, ${b}, 255)`
+                    break;
+                    case 4:
+                        ctx.strokeStyle = `rgb(${r}, ${g}, ${b}, ${a / 255})`
+                }
+            }
+            background = function(r, g, b, a) {
+                let prev = [ctx.strokeStyle, ctx.fillStyle]
+                switch(arguments.length){
+                    case 1:
+                        document.body.style.background = ctx.fillStyle = typeof r === 'string' ? r : `rgb(${r}, ${r}, ${r}, 255)`
+                    break;
+                    case 2:
+                        document.body.style.background = ctx.fillStyle = `rgb(${r}, ${r}, ${r}, ${g / 255})`
+                    break;
+                    case 3:
+                        document.body.style.background = ctx.fillStyle = `rgb(${r}, ${g}, ${b}, 255)`
+                    break;
+                    case 4:
+                        document.body.style.background = ctx.fillStyle = `rgb(${r}, ${g}, ${b}, ${a / 255})`
+                }
+                noStroke()
+                ctx.fillRect(0, 0, width, height)
+                ctx.strokeStyle = prev[0]
+                ctx.fillStyle = prev[1]
+            }
+            clear = () => {
+                ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
+            }
+            noStroke = () => ctx.strokeStyle = 'rgb(0, 0, 0, 0)'
+            noFill = () => ctx.fillStyle = 'rgb(0, 0, 0, 0)'
+            //]
+            //shapes [
+            comp = (x, y, w, h, draw) => data[draw] > 0 ? [x - w / 2, y - h / 2] : [x, y]
+            rect = (x, y, width, height, tl, tr, br, bl) => {
+                [x, y] = comp(x, y, width, height, 'rect')
+                if(tl){
+                    const w = width / 2, h = height / 2
+                    tl = tl > w || tl > h ? Math.min(w, h) : tl
+                    tr = !bl ? tl : tr
+                    tr = tr > w || tr > h ? Math.min(w, h) : tr
+                    br = !bl ? tl : br
+                    br = br > w || br > h ? Math.min(w, h) : br
+                    bl = !bl ? tl : bl
+                    bl = bl > w || bl > h ? Math.min(w, h) : bl
+                    if (ctx.strokeStyle === 'rgba(0, 0, 0, 0)') 
+                        ctx.translate(0.5, 0.5)
+                    beginShape()
+                    vertex(x + tl, y)
+                    vertex(x + width - tr, y)
+                    curveVertex(x + width, y, x + width, y + tr)
+                    vertex(x + width, y + height - br)
+                    curveVertex(x + width, y + height, x + width - br, y + height)
+                    vertex(x + bl, y + height)
+                    curveVertex(x, y + height, x, y + height - bl)
+                    vertex(x, y + tl)
+                    curveVertex(x, y, x + tl, y)
+                    endShape()
+                    if (ctx.strokeStyle === 'rgba(0, 0, 0, 0)') 
+                        ctx.translate(-0.5, -0.5)
+                }
+                else {
+                    ctx.strokeRect(x, y, width, height)
+                    ctx.fillRect(x, y, width, height)
+                }
+            }
+            clear = () => ctx.clearRect(0, 0, canvas.width, canvas.height)
+            text = (msg, x, y) => {
+                msg = Object.is(typeof msg, 'string') ? msg : msg.toString()
+                if(msg.match('\n')){
+                    msg.split('\n').map((p, i) => {
+                        ctx.strokeText(p, x, y + ((i - ((msg.split('\n')).length - 1) / 2) * data.height))
+                        ctx.fillText(p, x, y + ((i - ((msg.split('\n')).length - 1) / 2) * data.height))
+                    })
+                }
+                else {
+                    ctx.strokeText(msg, x, y)
+                    ctx.fillText(msg, x, y)
+                }
+            }
+            rectMode = (m) => data['rect'] = m
+            ellipseMode = (m) => data['ellipse'] = m
+            textAlign = (x, y) => {
+                ctx.textAlign = x <= 0 ? 'start' : 'center'
+                ctx.textBaseline = y <= 0 ? 'alphabetic' : 'middle'
+            }
+            createFont = (font) => font
+            textSize = size => {
+                data.height = size
+                ctx.font = `${size}px ${data.font}`
+            }
+            textFont = (font, size) => {
+                data.height ||= size
+                data.font = font
+                ctx.font = `${data.height}px ${font}`
+            }
+            strokeCap = mode => ctx.lineCap = mode
+            strokeJoin = mode => ctx.lineJoin = mode
+            strokeWeight = weight => ctx.lineWidth = Number(weight)
+            pushMatrix = () => ctx.save()
+            popMatrix = () => ctx.restore()
+            resetMatrix = popMatrix
+            translate = (x, y) => ctx.translate(x, y)
+            rotate = ang => ctx.rotate(degrees(ang))
+            scale = (w, h) => ctx.scale(w, h ? h : w)
+            beginShape = () => v = []
+            vertex = (x, y) => v.push([x, y, 'v'])
+            curveVertex = (cx, cy, x, y) => v.push([cx, cy, 'c', x, y])
+            bezierVertex = (cx, cy, cX, cY, x, y) => v.push([cx, cy, 'b', cX, cY, x, y])
+            endShape = (end) => {
+                if(v.length < 2) return
+                ctx.beginPath()
+                for(let i = 0; i < v.length; i++){
+                    let p = v[i]
+                    if(i <= 0){
+                        if(p[2] !== ('v' || 'c')) return
+                        ctx.moveTo(p[0], p[1])
+                    }
+                    else {
+                        switch(p[2]){
+                            case 'v':
+                                ctx.lineTo(p[0], p[1])
+                            break
+                            case 'c':
+                                ctx.quadraticCurveTo(p[0], p[1], p[3], p[4])
+                            break
+                            case 'b':
+                                ctx.bezierCurveTo(p[0], p[1], p[3], p[4], p[5], p[6])
+                        }
+                    }
+                }
+                if(end) ctx.closePath()
+                ctx.stroke()
+                ctx.fill()
+            }
+            curve = function(x, y, cx, cy, cX, cY, X, Y) {
+                if(arguments.length !== 8) return
+                beginShape()
+                vertex(x, y)
+                curveVertex(cx, cy, cX, cY)
+                vertex(X, Y)
+                endShape()
+            }
+            bezier = function(x, y, cx, cy, cX, cY, X, Y) {
+                if(arguments.length !== 8) return
+                beginShape()
+                vertex(x, y)
+                bezierVertex(cx, cy, cX, cY, X, Y)
+                endShape()
+            }
+            arc = (x, y, w, h, start, stop) => {
+              ctx.beginPath()
+              ctx.ellipse(x, y, w * 0.5, h * 0.5, degrees(start), degrees(stop), false)
+              ctx.fill()
+              ctx.stroke()
+            }
+            ellipse = (x, y, w, h) => {
+                ctx.beginPath()
+                ctx.ellipse(x, y, w * 0.5, h * 0.5, 0, 0, Math.PI * 2, true)
+                ctx.stroke()
+                ctx.fill()
+            }
+            quad = (x, y, X, Y, _x, _y, _X, _Y) => {
+                beginShape()
+                vertex(x, y)
+                vertex(X, Y)
+                vertex(_x, _y)
+                vertex(_X, _Y)
+                endShape(CLOSE)
+            }
+            triangle = (x, y, X, Y, _x, _y) => {
+                beginShape()
+                vertex(x, y)
+                vertex(X, Y)
+                vertex(_x, _y)
+                endShape(CLOSE)
+            }
+            point = (x, y) => {
+                if(!Object.is(ctx.strokeStyle, 'rgba(0, 0, 0, 0)')){
+                    let style = ctx.strokeStyle
+                    noStroke()
+                    ellipse(x, y, ctx.lineWidth, ctx.lineWidth)
+                    ctx.strokeStyle = style
+                }
+                else {
+                    return
+                }
+            }
+            line = (x, y, X, Y) => {
+                ctx.beginPath()
+                ctx.moveTo(x, y)
+                ctx.lineTo(X, Y)
+                ctx.closePath()
+                ctx.stroke()
+            }
+            textWidth = (txt) => {
+                let width = 0
+                txt.split('\n').map(str => width = max(width, ctx.measureText(txt).width))
+                return width
+            }
+            textAscent = () => ctx.measureText('a').fontBoundingBoxAscent
+            textDescent = () => ctx.measureText('a').fontBoundingBoxDescent
+            const Canvas = (w, h) => {
+                const C = Object.assign(document.createElement('canvas'), {width: w, height: h})
+                return [C, C.getContext('2d')]
+            }
+            get = function(x, y, w, h, src){
+                let canv, data, context, Canv
+                switch(arguments.length){
+                    case 0:
+                        get(0, 0, width, height)
+                    break
+                    case 2:
+                        data = ctx.getImageData(x, y, 1, 1).data
+                        return color(data[0], data[1], data[2], data[3])
+                    break
+                    case 3:
+                        Canv = Canvas(w.width, w.height)
+                        context = Canv[1]
+                        if(w instanceof HTMLImageElement){
+                            context.drawImage(w, 0, 0)
+                            data = context.getImageData(x, y, 1, 1)
+                        }
+                        else {
+                            data = w.getContext('2d').getImageData(x, y, 1, 1).data
+                        }
+                        return color(data[0], data[1], data[2], data[3])
+                    break
+                    case 4:
+                        Canv = Canvas(w, h)
+                        canv = Canv[0]
+                        context = Canv[1]
+                        context.putImageData(ctx.getImageData(x, y, w, h), 0, 0)
+                        return canv
+                    break
+                    case 5:
+                        Canv = Canvas(src.width, src.height)
+                        context = Canv[1]
+                        context.drawImage(src, -x, -y)
+                        return Canv[0]
+                    break
+                    default:
+                        return
+                }
+            }
+            mask = ctx.clip
+            image = (img, x, y, w, h) => {
+              ctx.drawImage(img, x, y, w || img.width, h || img.height)
+            }
+            //]
+            //interaction [
+            //mouse [
+            mousePressed = () => {}
+            mouseReleased = () => {}
+            mouseScrolled = () => {} 
+            mouseClicked = () => {} 
+            mouseOut = () => {}
+            mouseOver = () => {}
+            mouseMoved = () => {}
+            mouseIsPressed = false
+            mouseButton = left
+            mouseX = 0
+            mouseY = 0
+            pmouseX = mouseX
+            pmouseY = mouseY
+            canvas.onmousedown = e => {
+                mousePressed(e)
+                mouseIsPressed = true
+                mouseButton = e.button
+            }
+            canvas.onmousemove = e => {
+                pmouseX = mouseX
+                pmouseY = mouseY
+                mouseX = floor(e.offsetX * width / canvas.clientWidth)
+                mouseY = floor(e.offsetY * height / canvas.clientHeight)
+                // console.log(e)
+                mouseMoved(e)
+            }
+            canvas.onmouseup = e => {
+                mouseReleased(e)
+                mouseClicked(e)
+                mouseButton = e.button
+                mouseIsPressed = false
+                e.preventDefault()
+            }
+            canvas.oncontextmenu = e => e.preventDefault()
+            canvas.onmouseover = e => {
+                e.preventDefault()
+                mouseOver(e)
+            }
+            canvas.onmouseout = e => {
+                e.preventDefault()
+                mouseOut(e)
+            }
+            canvas.onwheel = e => {
+                e.preventDefault()
+                mouseScrolled(e)
+            }
+            //]
+            //keys [
+            keyPressed = function(){}
+            keyReleased = function(){}
+            keyTyped = function(){}
+            document.onkeydown = e => {
+                e.preventDefault()
+                key = e.key
+                keyCode = e.keyCode
+                keyIsPressed = true
+                keyPressed(e)
+            }
+            document.onkeyup = e => {
+                e.preventDefault()
+                key = e.key
+                keyCode = e.keyCode
+                keyReleased(e)
+            }
+            document.onkeypress = e => {
+                e.preventDefault()
+                key = e.key
+                keyCode = e.keyCode
+                keyTyped(e)
+            }
+            //]
+            //]
+            let loopy
+            if(loopy) window.clearInterval(loopy)
+            loopy = window.setInterval(() => {
+                draw()
+                frameCount += 1
+                fps = frameCount % 10 <= 0 ? 1000 / (Date.now() - data.date) : fps
+                data.date = Date.now()
+                data.millis = Date.now() - data.last
+            }, 1000 / data.rate)
+            //]
+            //print logic [
+            let print = document.getElementsByClassName('print')[0]
+            print.onclick = e => {
+                if(e.path[0].classList.contains('close')){
+                    clearLogs()
+                    print.style.display = 'none'
+                }
+            }
+            //]
+        </script>
+        <!-- platformer here -->
+        <script type = 'module'>
+        /** Constants */
+        const BLOCK_SIZE = 75
+        const GRAVITY = 0.5
+        
+         /** Level setup */
+        //{
+        const levels = [
+        {
+              map: [
+        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+        "m@  ^                                                                                                    m",
+        "mm                                                                                                       m",
+        "mm                                                                                                       m",
+        "mm                       m                                                                               m",
+        "mm                      m                                                                                m",
+        "mg  ^                  mgg                                                                                ",
+        "mmmmmmmmm mm mm mm mm mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm mm mm mm m m m m m m mmmmmmmmmmm m m m mmmmmm"
+              ],
+              messages: [
+                "<- This is you", 
+                "<- This is bad guy"
+              ]
+          },
+          {
+              map: [
+        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+        "mm@                  m                                                            m                      m",
+        "mm                   m mmmmmmm                          m                         m mmmm                 m",
+        "mm                   m m     m                         m m                        m m  m                 m",
+        "mm                   m m     m                        m   m                       m m  m               m m",
+        "mm                   m m     m                       m     m                      m m  m              m  m",
+        "mg    m  m             m     g                      m      g                        m  g             m  ^ ",
+        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm mm mm mm mmmmmmmmmmmmmmmmmmmm m m m m m mmmmmmmmmmmm m m m mmmmmm"
+              ],
+              messages: [
+                "Hooray"
+              ]
+          },
+          {
+            map: [
+        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+        "mm@                                                                                                      m",
+        "mm                                                                                                       m",
+        "mm                                                    m                                                  m",
+        "mm                                                   m                                                   m",
+        "mm           ^                                      m                                                    m",
+        "mg                                                 m  g                                                 ^ ",
+        "mmmmmmmmmmmm m m m m mm mm mm mm mm mm m mm mm mm mmmmmmmmmm mm mm mmm m m m m m mmmmmmmmmmmm m m m mmmmmm"
+            ],
+            messages: [ "Jump and jump maze", "Finish" ]
+          },
+          {
+            map: [
+        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+        "mm@                                                                             m                        m",
+        "mm                                                                              m mmmmm                  m",
+        "mm                                                                              m m   m                  m",
+        "mm           ^                                                                  m m   m                  m",
+        "mg                                                                                m  g                  ^ ",
+        "mmmmmmmmmmmm m m m m mm mm mm mm mm mm m mm mm mm mmm mmm mm mm mm mmm m m m m m mmmmmmmmmmmm m m m mmmmmm",
+        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm       mmmmmm"
+            ],
+            messages: [
+              "Jump and run", "Good job!"
+            ]
+          },
+          {
+            map: [
+        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+        "mm@                             m                                               m                        m",
+        "mm                              m                                               m mmmmm                  m",
+        "mm                          m   m mmmm                           mmmm           m m   m                  m",
+        "mm                         m    m m     m                       m               m m   m                  m",
+        "mm           ^            m     m m          m                 m                m m   m                  m",
+        "mg                       m        m       m     m             m   g               m  g                  ^ ",
+        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm         mm mm mm mm mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm m m m mmmmmm"
+            ],
+            messages: [
+              "They want to trap you"
+            ]
+          },
+          {
+            map: [
+        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+        "m@       ^                                                                                               m",
+        "m                                                                                                        m",
+        "m                                                                                                        m",
+        "m                                                                                                        m",
+        "m                                                                                                        m",
+        "m                                                                                                         ",
+        "mmm mm mm mm mm mm mm mm mm mm mm m m m m m m mm mm mm mm mm mm mm mm mm mm mm mm mm mm mm mm mm mm mmmmmm"
+            ],
+            messages: [ "Just jump up" ]
+          },
+          {
+            map: [
+        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+        "m@m      ^  m          m                         m                                  m                m     m     m        m",
+        "m m mmmmmmm m  mmmmmmm m                         m  mmmmmm                 m mggggggm                m mmm m mmm m  mmmm  m",
+        "m m m       m  m     m m                         m  m      m m m m m      m   mgggggm                m m m m m m m  m     m",
+        "m m m mmmmmmm  m     m                           m  m      m m m m m     m     mggggm                m m m m m m m  m  mmmm",
+        "m m m m        m       mmm                       m  m      m m m m m    m       mmmmm                m m m m m m m  m     m",
+        "m   m   mmmmmmmmgmgmgmmmg                           m      m m m m m   m                               m m   m m    mmm    ",
+        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm mm mm mm mm mm mmmmmmmmmmm m m m m m mmmmmmmmmmmmmmmmmmmm m m m m m mmmmmmmmmmmmmmmmmmmmmmm"
+            ],
+            messages: [ "A harder maze" ]
+        },
+          {
+              map: [
+        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+        "m@       ^        ^                                                        m                                                                           m",
+        "mm                    mmmmm                        mmmmmmm                 m mmmm                               mmmm                                   m",
+        "mm                   m                            m                        m m     m   m                       mggg                                    m",
+        "mm                  m                            m                         m m     m m m   m                  mgggg                                    m",
+        "mm                 m                            m                          m m     m m m m m                 mggggg                                    m",
+        "mg                m     ggg                    m     ggggg                   m     m m m m m                mgggggg             m  m  m  m  m  m  m  ^  ",
+        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm m m m m m mmmmmm mm mm mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
+              ],
+              messages: ["run", "as fast as you can", "yeah!"]
+          },
+          {
+            map: [
+        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+        "m@                                                                                          gggggm                            m                                  m",
+        "mmmmmmmmmmmmmmmmmmmmm                             mm       m                            mm mmggggm                            m   mmmmmmmmmm                     m",
+        "mgggggggggggggggggggm                           mm   m   m m                           m     mgggm                            m   mggggggggm                     m",
+        "mgggggggggggggggggggm                         mm     m m m m   m                      m       mggm                            m   mggggggggm                     m",
+        "mgggggggggggggggggggm                       mm       m m m m m m                     m         mmm                            m   mggggggggm                     m",
+        "mggggggggggggggggggg                      mm         m m m m m m                    m                 m m m m m m m m m m m       mgggggggg                       ",
+        "mmmmmmmmmmmmmmmmmmmmmmm mm mm mm mm mm mm mmmmmmmmmm m m m m m m mm mmm mmmm mmmmm mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
+            ]
+          },
+          {
+              map: [
+        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+        "m@       m                                                                       m                                                          m                    m",
+        "mmmmmmmm mmmmmmmmmmmmmmmmmmmmm  mmmmmmmmmmm                                      m   mmmmmmmmmmm                                            mm  mmmmmmmm         m",
+        "m        mggggggggggggggggggggm           m                                      m  ^mgggggggg m                                              m        m  m      m",
+        "m mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm m   m m m m m m m m m m m m m m m      m^  mmmmmmmmm m                                               m m m  mm    m    m",
+        "m   m   m   m   m   m   m   m   m   m   m m                                      m  ^mgggggggggm                                                     m        m  m",
+        "m m   m   m   m   m   m   m   m   m   m   m                                          mggggggggg                                                     m          ^  ",
+        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm m m m m m m m m m m m m m m m m m mmmmmmmmmmmmmmmmmmmmmmmmm mmm mm m m m m mm mm mm mm mm mm mm mm mm mmmmmmmmmmmmmmm"
+              ],
+              messages: ["up","up","up","hard work!"]
+          },
+          {
+            map: [
+  "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+  "m@     m                                                          m           m                                                                            m",
+  "m      m mmmm                 mmm                                 m   mmmmmmm m                                 mm                                         m",
+  "m      m m    m              mggg                                 m   m       m                               mm  ggm                                      m",
+  "m        m      m           mgggg                                 m   m mmmmmmm                             mm    ggggm                                    m",
+  "mmmmmmmmmm        m        mggggg                                 m   m                                   mm      ggggggm                                  m",
+  "mgggggggg           m     mgggggg           m m m m m m m m           mmmmmmmmm                         mm        ggggggggm     m m m m m m m m m m m m m   ",
+  "mmmmmmmmmmmmmm        mmmmmmmmmmmmmmmmmmmmmm m m m m m m m mmmmmmmmmmmmmmmmmmmmmmmm mm mm mm mm mm mm mm          mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
+            ]
+          },
+          {
+            map: [
+  "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+  "m@    m                     #  #  #  #  #     m        m                                 m                           m        m                                         m                        m",
+  "mm    m                                       m  mmmmm m                          mmmmmm m                           m mmm    m  mmmmm                           m mggggm                        m",
+  "mmm   m                                       m  m     m                         m       m                           m mgm    m  m                              m   mmmmm                        m",
+  "mmmm  m                                          m mmmmm                        m m     mm    m                      m mgm    m  m    m                        m     mmmm                        m",
+  "mmmmm                                         mmmm                             m     m   m   m  m        m           m mgm    m  m      m                     m       mmm                        m",
+  "mgggg                                         mg    mmmm   m   m   m   m      m  m          m       m   m              m         m        m     m m m m      m             m  m  m  m  m  m       ",
+  "mmmmmmmm m m m mm mm mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm   m   m   m   mmmmm     m  m mmmmmmm  mm   mm   m m m mm mmmmmmmmmmmmmmmmmm      mmmm       mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
+          ]
+},
+{
+  map: [
+        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+        "m@        m            m     m      m                         # # # # #  m       m                              m                                                                       m",
+        "mmmmmmmmm m            m mmm m  mmm m   mmm                              m  mmmm m                       m mggggm     mm                                                       mmmmmmmm m",
+        "m         m            m m m m  m m m   mgm                              m  m    m                      m   mmggm    m   m     m       m                         m            m  #      m",
+        "m mmmmmmmmm            m m m m  m m m   mgm                                 m mmmm                     m   m mggm   m    m   m m     m m                        mg           m   mmmmmmmm",
+        "m                      m m m m  m m m   mgm                              mmmm        m                m  m    mmm  m     m m m m   m m m mm         m          mgg          m           m",
+        "mmmmmmmmmmm m m m m m    m m    m m     mg         m m m m m             mgg  mmmm  m  m   m m       m            m      m m m m m m m m     mm    m      m   mggg         m  m          ",
+        "mmmmmmmmmmm           mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm      m   m mmmmmmmmmmmmmmmmmmmmmmmm m m m m m m m m         mm   m mm   mmmmmmmmmmmmmmmm  m mm mmmmm"
+  ]
+},
+{
+  map: [
+        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+        "m@        m            m     m      m                                 #  m       m                              m                                                        m",
+        "mmmmmmmmm m            m mmm m  mmm m   mmm                              m  mmmm m                       m mggggm     mm                                        mmmmmmmm m",
+        "m         m            m m m m  m m m   mgm                              m  m    m                      m   mmmmm    m                            m            m         m",
+        "m mmmmmmmmm            m m m m  m m m   mgm                                 m mmmm                     m   m mggm   m                            mg           m        mmm",
+        "m                      m m m m  m m m   mgm                              mmmm                         m  m    mmm  m      mm         m          mgg          m           m",
+        "mm m m m m  mmmmmmmmmm   m m    m m     mg         m m m m m m m m m     mgg  mmmm  m mm   m m       m            m           mm    m      m   mggg m m m   m  m    m     ",
+        "m          mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm      m    mmmmmmmmmmmmmmmmmmmmmmmmm          mm   m mm   mmmmmmmmmmmm mmm  m mm  m mm"
+  ]
+},
+{
+  map: [
+        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+        "m@        m                                          # m       m                            ggm                                                        m                    m      m                                                                  m",
+        "mmmmmmmmm m                mmmm                        m  mmmm m                       m mggggm     mm                                        mmmmmmmm m                    m mmmm m    m                                m                        #   m",
+        "m         m               mgggg                        m  m    m                      m   mmmmm    m                            m            m         m                    m m    m   mg                               m                       mmmmmmm",
+        "m mmmmmmmmm              mggggg                           m mmmm                     m   m mggm   m                            mg           m        mmm                    m m m     mgg                              m                     m         ",
+        "m                       mgggggg                        mmmm                         m  m    mmm  m      mm         m          mgg          m           m                    m m    mmmmmmmmmm mm mm mm mm             mgggmm mm mm mm      m         mm",
+        "mm m m m m  mmmmmmmmmm mggggggg   m m m m m m m m m    mgg  mmmm  m mm   m m       m            m           mm    m  m   m   mggg m m m   m  m    m                           m   mm                       m         mmmmm           m   m           mm",
+        "m          mmmmmmmmmmmmmmmmmmmmmmm                  mmmmmmmmmmmmmm      m   mmmmmmmmmmmmmmmmmmmmmmmmmm          mm    mmmmmmmmmmmm     m mm    mm   mmmmmm mmm  m mm  m mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm mm mm mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
+  ]
+},
+{
+  map: [
+        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+        "m@        m                                         #  m       m                            ggm                                                        m                    m      m                                                                                          #  #  #  #  #  #     m                                                                                                                                #                                               m    #                                                        m",
+        "mmmmmmmmm m                mmmm                        m  mmmm m                       m mggggm     mm                                        mmmmmmmm m                    m mmmm m    m                                m                                                                         m  mm   mmmmmmmmmmmmmmmmm                                                m mmmmmmmmmmmmm                                      m  m m m       mmmmmmm mm mm mm mm mm mm mm mmmmm  m mm m  mmmm                                   m m m m m m    m",
+        "m         m               mgggg                        m  m    m                      m   mmmmm    m                            m            m         m                    m m    m   mg                               m                               m          m                               m  m    m                 m                          m                  m  m                           m m m m mm m          m   m m m      m                                    m m  m  m             m                       m               m",
+        "m mmmmmmmmm              mggggg                           m  mmm                     m   m mggm   m                            m            m        mmm                    m m m     mgg                              m                               m         m m                                  m    m                   m                       m                  m   m mm mm mm mm              m                     m    m m m  mm m                                     m m  m  m           m m m                    m                 ",
+        "m                       mgggggg                        mmmmm                        m  m    mmm  m      mm         m          mg           m           m                    m m    mmmmmmmmmm mm mm mm mm             m ggmm mm mm mm                 m        m m m                               mmmmmmm                       m                    m   mm m mm        m    m m           m           m                     m                                mmm                  m m  m  m         m m m m                   m         m      mm",
+        "m           mmmmmmmmmm mggggggg   m m m m m m m m m    mg g  mmm  m mm   m m       m            m           mm    m  m   m   mgg  m m m   m  m    m                           m   mm                       m         mmmmm           m      m        m       m m m m                               mggggg  m                       m     m m m       #                  m       m             m        m                     m                        m m m m m      m m m m  m       m     m       m m m m m mm               m         m      m#m",
+        "mm m m m m                     mm                   mmmmmmmmmmmmmm      m   mmmmmmmmmmmmmmmmmmmmmmmmmm          mm    mmmmmmmmmmmm     m mm    mm   mmmmmm mmm  m mm  m mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm mm mm mmmmmmmmmmmmmmmmmmmmm m   m mmmmmmmmmm m m m m m mm mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm m m m  mmmm m m m m m mmmm m m m m mmmmmmmmmmmmmmmmm mm mm mmm m  mmmmm mmm            mmmmmmmmmmmmmmm m mm mm mm mm mmm            mm        m  mmmmmmmmmmmmmmmmmm m m m m m m   mm m mmm mm m mmmmm m m m   m mmmmm"
+  ]
+},
+{
+  map: [
+        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+        "m@        m                                          # m       m                                                                                       m                    m      #                                                                                          #  #  #  #  #  #     m                                                                                                                                                                                m    #                                                           m                          m",
+        "mmmmmmmmm m                mmmm                        m  mmmm m                       m            mm                                        mmmmmmmm m                    m mmmm m    m                                m                                                                         m  mmm  mmmmmmmmmmmmmmmmm                                                m mmmmmmmmmmmmmmmmmmmmmm                             m  m m m       mmmmmmm mm mm mm mm mm mm mm mmmmm  m mm m  mmmm                                   m m m m m m       m mmmmmmmmmmmmmmmmmmm mmm  m",
+        "m         m               mgggg                 m      m  m    m                      m            m                            m            m         m                    m m    m   mg                               m                               m          m                               m  m    m                 m                          mm                 m  m                           m m m m mm m          m   m m m      m                                    m m  m  m             m                       m             m    m m                        m",
+        "m mmmmm # m              mggggg                m          m  mmm                     m   m        m                            m            m        mmm                    m m m     mgg                              m                               m         m m                m                 m    m    m              m                       m                  m   m mm mm mm mm              m                     m    m m m  mm m                                     m m  m  m           m m m                    m               m   m m                 m     *m",
+        "m       mm              mgggggg           m   m        mmmmm                        m      m     m      mm         m          mg           #           m                    m m    mmmmmmmmmm mm mm mm mm             m ggmm mm mm mm                 m        m m m              m m              mmmmmmm     m                 m                    m   mm m mm        m    m m           m           m                     m                                mmm                  m m  m  m         m m m m                   #         m        m m m                m      mm",
+        "m           mmmmmmmmmm mggggggg   m m m m   m     m    mg g  mmm  m mm   m m       m         m  m           mm    m  m   m   mgg  m m m   mm m    m                           m   mm                       m         mmmmm           m      m        m       m m m m            m m m              mggggg  m  #                     m    m m m       #                  m       m             m        m                     m                        m m m m m      m m m m  m       m     m       m m m m m mm               mm        m             #           m   m      m#m",
+        "mm m m m m                     mm                   mmmmmmmmmmmm m      m   mmmmmmmmmmmm       mmmmmmm          mm    mmmmmmmmmmmm     m mm    mm   mmmmmm mmm  m mm  m mmmmmmmm mmmmmmmmmmmmmmmmmmmmmmmmmmmm mm mm mmmmmmmmmmmmmmmmmmmmm m   m mmmmmmmmmm m m m m m mm m m m m m m mmm mm mmmmmmmmmmmmmmmmmmmm mm m mm mm mmm m m m  mmmm m m m m m mmmm m m m m mmmmmmmmmmmmmmmmm mm mm mmm m  mmmmm mmm            mmmmmmmmmmmmmmm m mm mm mm mm mmm            mm        m  mmmmmmmmmmmmmmmmmm m  m m m m m   mm m mmm mm m mmm mm m m    mmmmmmmmmmmmmmmmm m m m mmmmmm mmmmm"
+  ]
+}
+
+
+        ]
+        
+        let currentLevel;
+        function loadLevel() {
+            const level = currentLevel || levels[levelIndex]
+            clearData()
+            const levelMap = level.map
+            const levelWidth = levelMap[0].length
+            const levelHeight = levelMap.length
+            initTileData(levelWidth, levelHeight)
+            let cameraIndex = 0, messageIndex = 0
+            let playerX = 0, playerY = 0
+            for(var i = 0; i < levelHeight; i++) {
+                for(var j = 0; j < levelWidth; j++) {
+                    const symbol = levelMap[i][j]
+                    switch(symbol) {
+                        case "m":
+                        case "r":
+                        case "|":
+                            putTileData(j, i, symbol)
+                        break;
+                        case "&":
+                            const param = level.cameraSetup[min(cameraIndex++, level.cameraSetup.length - 1)]
+                            cameras.push(new EnemyCamera(j * BLOCK_SIZE + BLOCK_SIZE * 0.5, i * BLOCK_SIZE + BLOCK_SIZE * 0.5, param.angle, param.sequence))
+                        break;
+                        case "@":
+                            playerX = j * BLOCK_SIZE + BLOCK_SIZE * 0.25
+                            playerY = i * BLOCK_SIZE + BLOCK_SIZE * 0.25
+                        break;
+                        case "#":
+                            new Crate(j * BLOCK_SIZE, i * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+                        break;
+                        case "g":
+                          new Guard(j * BLOCK_SIZE + BLOCK_SIZE * 0.25, i * BLOCK_SIZE + BLOCK_SIZE * 0.25, BLOCK_SIZE * 0.5, BLOCK_SIZE * 0.5)
+                        break;
+                        case "*":
+                          new Portal(j * BLOCK_SIZE, i * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE)
+                        break;
+                        case "^":
+                          levelMessages.push(new LevelMessage(level.messages[min(messageIndex++, level.messages.length - 1)], j * BLOCK_SIZE + BLOCK_SIZE / 2, i * BLOCK_SIZE + BLOCK_SIZE / 2))
+                        break;
+                    }
+                }
+            }
+            player = new Player(playerX, playerY, BLOCK_SIZE * 0.5, BLOCK_SIZE * 0.5)
+            cam.x = 0
+            cam.y = 0
+            cam.setBounds({
+                minX: 0, minY: 0,
+                maxX: levelWidth * BLOCK_SIZE,
+                maxY: levelHeight * BLOCK_SIZE
+            })      
+            levelLoaded = true  
+          }
+        //}
+        let levelIndex = 0//levels.length - 1
+        let completedLevels = 0
+        let levelLoaded = false
+
+        
+        /** SETUP */
+        const keys = []
+        function keyIsDown(...keyCodes) {
+           return keyCodes.some(code => keys[code])
+        }
+        keyPressed = function() {
+           keys[keyCode] = true
+        }
+        keyReleased = function() {
+           keys[keyCode] = false
+        }
+        rectMode(CORNER)
+        angleMode(RADIANS)
+        /** END SETUP */
+        
+        /** Helper functions */
+        function getCenteredText(txt, x, y, w, h) {
+          const spaceWidth = ctx.measureText(' ').width
+          const words = txt.split(' ').map(word => {
+            return {
+              w: ctx.measureText(word).width,
+              word
+            }
+          })
+          let newStr = ''
+          let currentWidth = 0
+          for(const word of words) {
+            currentWidth += word.w
+            if(currentWidth > w) {
+              currentWidth = 0
+              newStr += '\n'
+            }
+            currentWidth += spaceWidth
+            newStr += word.word + " "
+          }
+          return newStr
+        }
+        function cache(w, h, cb, type) {
+            const canvas = document.createElement('canvas')
+            canvas.width = w
+            canvas.height = h
+            const ctx = canvas.getContext('2d')
+            cb(canvas, ctx, w, h)
+            if(type === 'pattern') {
+                const pattern = ctx.createPattern(canvas, 'repeat')
+                pattern.width = w
+                pattern.height = h
+                return pattern
+            }
+            return canvas
+        }
+        const normAngle = angle => {
+            while(angle < -Math.PI) {
+                angle += Math.PI * 2
+            }
+            while(angle > Math.PI) {
+                angle -= Math.PI * 2
+            }
+            return angle
+        }
+        
+        /** Image Loading */
+        const img = {
+            imgs: {
+                box() {
+                    pushMatrix();
+                    translate(36, 36)
+                    scale(3);
+                    rectMode(CENTER);
+                    strokeWeight(6);
+                    stroke(115, 61, 0);
+                    fill(163, 73, 0);
+                    rect(0, 0, 18, 18);
+                    strokeWeight(2);
+                    line(-8, -8, 8, 8);
+                    line(-8, 8, 8, -8);
+                    stroke(100, 100, 100);
+                    strokeWeight(1);
+                    point(-9, -9);
+                    point(-9, -11);
+                    point(-11, -9);
+                    point(-11, -11);
+                    point(8, -9);
+                    point(8, -11);
+                    point(10, -9);
+                    point(10, -11);
+                    point(-9, 8);
+                    point(-9, 10);
+                    point(-11, 8);
+                    point(-11, 10);
+                    point(8, 8);
+                    point(8, 10);
+                    point(10, 8);
+                    point(10, 10);
+                    popMatrix();
+                    return get(0, 0, 72, 72)
+                },
+                metal() {
+                    clear()
+                    pushMatrix();
+                    translate(80, 80);
+                    scale(1.35, 1.35);
+                    translate(-247.5, -112.5);
+                    rectMode(0)
+                    noStroke();
+                    fill(99, 99, 99);
+                    rect(189,54,120,120);
+                    
+                    stroke(99, 99, 99);
+                    strokeWeight(3);
+                    fill(153, 153, 153);
+                    
+                    rect(227,55,50,50);
+                    rect(256,77,50,50);
+                    rect(257,55,50,50);
+                    rect(257,125,50,47);
+                    rect(229,110,64,29);
+                    rect(226,139,50,33);
+                    rect(190,55,50,29);
+                    rect(211,68,50,50);
+                    rect(190,55,24,50);
+                    rect(201,87,29,37);
+                    rect(191,79,10,50);
+                    rect(190,122,50,50);
+                    
+                    fill(184, 184, 184);
+                    noStroke();
+                    
+                    rect(192,124,46,4);
+                    rect(235,124,4,46);
+                    rect(242,166,33,4);
+                    rect(279,141,16,4);
+                    rect(295,127,11,4);
+                    rect(264,107,40,2);
+                    rect(263,112,29,4);
+                    rect(232,120,31,2);
+                    rect(217,70,42,4);
+                    rect(260,57,45,4);
+                    rect(192,57,20,4);
+                    rect(193,81,6,4);
+                    rect(203,89,25,4);
+                    rect(216,57,4,9);
+                    rect(242,62,13,4);
+                    fill(0, 200)
+                    rect(188, 53, 122, 122)
+                    popMatrix();
+                    return get(0, 0, 152, 152)
+                },
+                rust() {
+                    clear()
+                    pushMatrix();
+                    translate(81, 81);
+                    scale(1.37);
+                    translate(-247.5, -112.5);
+                    noStroke();
+                    rectMode(0)
+                    fill(138, 51, 51);
+                    rect(189,54,120,120);
+                    
+                    stroke(138, 51, 51);
+                    strokeWeight(3);
+                    fill(184, 84, 77);
+                    
+                    rect(227,55,50,50);
+                    rect(256,77,50,50);
+                    rect(257,55,50,50);
+                    rect(257,125,50,47);
+                    rect(229,110,64,29);
+                    rect(226,139,50,33);
+                    rect(190,55,50,29);
+                    rect(211,68,50,50);
+                    rect(190,55,24,50);
+                    rect(201,87,29,37);
+                    rect(191,79,10,50);
+                    rect(190,122,50,50);
+                    
+                    fill(219, 113, 92);
+                    noStroke();
+                    
+                    rect(192,124,46,4);
+                    rect(235,124,4,46);
+                    rect(242,166,33,4);
+                    rect(279,141,16,4);
+                    rect(295,127,11,4);
+                    rect(264,107,40,2);
+                    rect(263,112,29,4);
+                    rect(232,120,31,2);
+                    rect(217,70,42,4);
+                    rect(260,57,45,4);
+                    rect(192,57,20,4);
+                    rect(193,81,6,4);
+                    rect(203,89,25,4);
+                    rect(216,57,4,9);
+                    rect(242,62,13,4);
+                    
+                    popMatrix();
+                    return get(0, 0, 150, 150)
+                },
+                fakeCam() {
+                  clear()
+                  pushMatrix();
+                  translate(103, 105);
+                  scale(3)
+                  // Lights {
+                  translate(275, 248);
+                  pushMatrix();
+                      translate(-274, -247);
+                      rotate(0);
+                      
+                      noStroke();
+                      
+                      fill(50);
+                      rectMode(CENTER);
+                      rect(0, 0, 30, 20, 3);
+                      
+                      rect(9, 0, 30, 10, 2);
+                      
+                      fill(80);
+                      ellipse(-13.6, 0, 3, 20);
+                      
+                      fill(150, 255, 150, 150);
+                      ellipse(-3, 6, 3, 3);
+                      
+                      fill(0, 255, 0, 50);
+                      ellipse(-3, 6, 6, 6);
+                      
+                      // fill(255, 255, 0, 60);
+                      // arc(399, 0, 750, 100, 91, 270);
+                      // arc(399, 0, 50, 100, -89, 90);
+                      
+                      fill(130);
+                      rect(-3, -4, 10, 8);
+                      
+                      fill(255, 100);
+                      ellipse(23, 0, 2, 10);
+                      
+                      for (var i = -6; i <= 0; i += 2) {
+                          stroke(100);
+                          strokeWeight(1);
+                          line(i, -2, i, -6);
+                      }
+                      
+                      noStroke();
+                      
+                  popMatrix();
+                  popMatrix();
+                  return get(17, 13, 197, 197)
+                },
+                backgroundImage() {
+                  var lightFade2 = 100;
+                  var lighton2 = false;
+                  
+                  var lightFade1 = 100;
+                  var lighton1 = false;
+                  
+                  var ninja = function (x, y, s, r) {
+                  
+                    stroke(7, 90, 173);
+                      strokeWeight(7);
+                      fill(0, 0, 0);
+                      ellipse(463,535,85,85);
+                      fill(0, 0, 0);
+                      strokeWeight(3);
+                      line(480, 523, 495, 535);
+                      line(505, 550, 480, 550);
+
+                  }; // This is faith's code
+                  var badguy = function (x, y, s) {
+                  
+                    stroke(173, 0, 3);
+                      strokeWeight(3);
+                      fill(0,0,0);
+                      ellipse(50,230,35,35);
+                      fill(0, 0, 0);
+                      strokeWeight(2);
+                      line(55, 225, 60, 230);
+                      line(55, 240, 65, 240);
+
+                      stroke(173, 0, 3);
+                      strokeWeight(3);
+                      fill(0,0,0);
+                      ellipse(150,275,45,45);
+                      fill(0, 0, 0);
+                      strokeWeight(2);
+                      line(155, 267, 163, 272);
+                      line(170, 285, 157, 285);
+
+                      stroke(173, 0, 3);
+                      strokeWeight(3);
+                      fill(0,0,0);
+                      ellipse(75,300,40,40);
+                      fill(0, 0, 0);
+                      strokeWeight(2);
+                      line(80, 290, 89, 295);
+                      line(82, 305, 95, 305);
+                  
+                  }; // This is faith's code
+                  var securityCamera1 = function (x, y, r, s) {
+                      pushMatrix();
+                          translate(x, y);
+                          scale(s);
+                          
+                          // Lights {
+                          
+                          
+                          // }
+                          
+                          
+                          rectMode(CORNER);
+                          
+                      popMatrix();
+                  };
+                  var boxes = function (x, y, s) {
+                      pushMatrix();
+                          translate(x, y);
+                          scale(s);
+                          
+                          rectMode(CENTER);
+                          
+                          strokeWeight(4);
+                          stroke(115, 61, 0);
+                          fill(163, 73, 0);
+                          rect(0, 0, 20, 20);
+                          
+                          strokeWeight(2);
+                          line(-8, -8, 8, 8);
+                          line(-8, 8, 8, -8);
+                          
+                          stroke(100);
+                          strokeWeight(1);
+                          point(-9, -9);
+                          point(-9, -11);
+                          point(-11, -9);
+                          point(-11, -11);
+                          
+                          rectMode(CORNER);
+                          
+                      popMatrix();
+                  };
+                  
+                  var graphic = function () {
+                      
+                      background(100);
+                      
+                      fill(150);
+                      quad(0, 600, 0, 180, 370, 180, 600, 600);
+                      
+                      fill(120);
+                      quad(30, 60, 30, 180, 135, 180, 135, 60);
+                      
+                      fill(125);
+                      quad(600, 0, 375, 0, 370, 180, 600, 600);
+                      
+                      rectMode(CENTER);
+                      
+                      
+                      fill(200, 0, 0);
+                      rect(55, 153, 18, 4);
+                      
+                      fill(50);
+                      rect(55, 157, 18, 3);
+                      
+                      fill(200);
+                      rect(306, 123, 30, 40);
+                      
+                      fill(170);
+                      rect(306, 123, 22, 32);
+                      
+                      noStroke();
+                      fill(255, 255, 0);
+                      beginShape();
+                      vertex(303, 136);
+                      vertex(310, 125);
+                      vertex(312, 125);
+                      vertex(314, 114);
+                      vertex(309, 113);
+                      vertex(306, 125);
+                      vertex(304, 125);
+                      endShape();
+                      
+                      
+                      ninja(1200, 900, 400, 500);
+                      noStroke();
+                      fill(130);
+                      
+                      fill(50);
+                      rect(17, 154, 10, 10);
+                      
+                      fill(255, 0, 0);
+                      ellipse(17, 154, 4, 4);
+                      
+                      fill(255, 0, 0, 100);
+                      ellipse(17, 154, 8, 8);
+                      
+                      fill(240, 0, 0);
+                      rect(405, 257, 16, 60);
+                      ellipse(405, 288, 16, 8);
+                      
+                      fill(255, 0, 0);
+                      ellipse(405, 228, 16, 8);
+                      rect(400, 261, 4, 60);
+                      
+                      fill(30);
+                      rect(405, 223, 4, 10);
+                      ellipse(405, 219, 7, 7);
+                      rect(402, 219, 10, 4);
+                      stroke(70);
+                      strokeWeight(5);
+                      fill(152, 157, 161);
+                      rect(80, 45, 35, 17, 5)
+                      strokeWeight(3);
+                      fill(214, 8, 8);
+                      ellipse(80, 45, 10, 10);
+                      
+                      
+                                
+                      
+                      
+                      rectMode(CORNER);
+                      stroke(70);
+                      strokeWeight(5);
+                     
+                      
+                      line(80, 140, 80, 177);
+                      line(80.5, 140, 90, 126);
+                      line(90, 106, 90, 125);
+                      line(80.5, 90, 90, 105);
+                      line(80, 90, 80, 61);
+                      noStroke();
+                      
+                      
+                      badguy(157, 893, 0.17);
+                      badguy(590, 12, 0.14);
+                      badguy(336, 939, 0.2);
+                      
+                      boxes(105, 440, 5);
+                      boxes(213, 452, 4);
+                      
+                      boxes(422, 393, 5);
+                      boxes(379, 451, 4);
+                      boxes(250, 250, 3);
+                      
+                      boxes(214, 176, 3);
+                      boxes(321, 216, 2);
+                      
+                  };
+                  pushMatrix()
+                  graphic();
+                  popMatrix();
+                  return get(0, 0, width, height);
+                },
+                diamond() {
+                  ctx.clearRect(0, 0, width, height);
+                  pushMatrix();
+                  ctx.beginPath()
+                  scale(width / 105);
+                  translate(-147, -175); 
+                  rectMode(CENTER);
+                  stroke(226, 230, 0);
+                  strokeWeight(3);
+                  line(185,200,185,185);
+                  line(215,200,215,185);
+                  noStroke();
+                  fill(201, 201, 201);
+                  rect(200,235,50,70);
+                  quad(175,270,225,270,230,280,170,280);
+                  fill(117, 117, 117);
+                  rect(185,230,6,50,10);
+                  rect(200,230,6,50,10);
+                  rect(215,230,6,50,10);
+                  fill(0, 255, 255);
+                  triangle(200,200,220,180,180,180);
+                  quad(220,180,180,180,185,175,215,175);
+                  stroke(0, 0, 0);
+                  strokeWeight(0.3);
+                  line(200,200,200,175);
+                  line(200,200,210,181);
+                  line(210,181,208,175);
+                  line(190,181,192,175);
+                  line(200,200,190,181);
+                  line(180,180,220,180);
+                  line(175,270,225,270);
+                  popMatrix();
+                  return get(0, 0, width, height);
+                },
+                ninja() {
+                  ctx.clearRect(0, 0, width, height)
+                  rectMode(CORNER)
+                  ctx.save();
+                  //main shape
+                  {
+                      stroke(7, 90, 173);
+                      strokeWeight(12);
+                      fill(0, 0, 0);
+                      ellipse(200,150,120,120);
+                      fill(0, 0, 0);
+                      line(219, 140, 238, 148);
+                      line(251, 180, 225, 180);
+                  }
+                  ctx.restore();
+                  return get(62, 59, 288, 288);
+              },
+            },
+            loaded: false,
+            loadIndex: 0,
+            load() {
+                const imgKeys = Object.keys(this.imgs)
+                if(this.loadIndex >= imgKeys.length) {
+                    return this.loaded = true
+                }
+                const key = imgKeys[this.loadIndex]
+                this.imgs[key] = this.imgs[key]()
+                this.loadIndex++
+            },
+            display(name, x, y, w, h) {
+                if(!this.loaded) {
+                    return console.error("Can't display images before loading")
+                }
+                if(!this.imgs[name]) {
+                    return console.error("Unknown image")
+                }
+                image(this.imgs[name], x, y, w, h)
+            }
+        }
+
+        /** SCENE HANDLING */
+        const scene = {
+          page: null,
+          pages: {},
+          use(name, cb) {
+            this.pages[name] = cb
+          },
+          transitionTimer: 0,
+          transitionStarted: false,
+          transitionTime: 10,
+          nextPage: null,
+          to(page, transition = true) {
+            if(transition) {
+              this.nextPage = page
+              this.transitionStarted = true
+              this.transitionTimer = 0
+            }else {
+              this.page = page
+            }
+          },
+          run() {
+            if(!this.pages[this.page]) {
+              background(255)
+              fill(0)
+              textSize(30)
+              textAlign(CENTER, CENTER)
+              text("Page not found", width / 2, height / 2)
+            }
+            this.pages[this.page]?.()
+            if(this.transitionStarted || this.transitionTimer > 0) {
+              const amt = 1 / this.transitionTime
+              this.transitionTimer += this.transitionStarted ? amt : -amt
+            }
+            if(this.transitionStarted) {
+              fill(0, this.transitionTimer * 255)
+              rect(0, 0, width, height)
+              if(this.transitionTimer >= 1) {
+                this.transitionStarted = false
+                this.page = this.nextPage
+              }
+            }
+          }
+        }
+
+        /** ICONS */
+        const icons = {
+          home(x, y, s) {
+            ctx.save()
+            translate(x, y)
+            scale(s / 50)
+            triangle(-25, -10, 0, -25, 25, -10)
+            rect(-17, -11, 34, 30)
+            ctx.restore()
+          } 
+        }
+
+        /** Button class */
+        class Button {
+          constructor(config) {
+            this.x = config.x
+            this.y = config.y
+            this.w = config.w
+            this.h = config.h
+            this.onClick = config.onClick
+            this.text = config.text
+            this.icon = config.icon
+            this.underMouse = false
+            this.pressed = false
+            this.dragover = false
+            
+          }
+          run() {
+            if(!mouseIsPressed && this.pressed) {
+              this.onClick()
+            }
+            this.underMouse = mouseX > this.x && mouseX < this.x + this.w && mouseY > this.y && mouseY < this.y + this.h
+            this.pressed = this.underMouse && mouseIsPressed
+            const shBlur = this.underMouse ? 20 : 10
+            ctx.save()
+            ctx.beginPath()
+            ctx.shadowBlur = shBlur
+            ctx.shadowColor = "#075AAD "
+            fill(0)
+            stroke(7, 90, 173)
+            strokeWeight(5)
+            rect(this.x, this.y, this.w, this.h)
+
+            ctx.shadowBlur = 0
+
+            if(this.text) {
+              textAlign(CENTER, CENTER)
+              textSize(25)
+              ctx.lineWidth = 2
+              stroke(7, 90, 173)
+              ctx.strokeText(this.text, this.x + this.w / 2, this.y + this.h / 2)
+            }
+            else if(this.icon) {
+              fill(7, 90, 173)
+              noStroke()
+              this.icon(this.x + this.w / 2, this.y + this.h / 2, 23)
+            }
+            ctx.restore()
+          }
+        }
+
+        /** Faith's sprites */
+        var ninja = function(x,y,s){
+          stroke(7, 90, 173);
+                      strokeWeight(12);
+                      fill(0, 0, 0);
+                      ellipse(200,200,200,200);
+                      fill(0, 0, 0);
+                      line(235, 173, 267, 195);
+                      line(289, 239, 252, 239);
+
+        };
+        var badguy = function(x,y,s){
+          stroke(173, 0, 3);
+                      strokeWeight(3);
+                      fill(0,0,0);
+                      ellipse(35,35,35,35);
+                      fill(0, 0, 0);
+                      strokeWeight(2);
+                      line(39, 30, 46, 34);
+                      line(42, 43, 50, 43);
+      }
+        
+
+        /** Ace Roger's camera graphic */
+        var securityCameras = function (x, y, s) {
+          pushMatrix();
+              translate(x, y);
+              scale(s);
+              
+              // Lights {
+              
+              stroke(0);
+              strokeWeight(3);
+              line(-275, -279, -275, -254);
+              
+              noStroke();
+              fill(80);
+              arc(-275, -283, 15, 10, 0, 180);
+              arc(-275, -282.7, 15, 4, -180, 0);
+              
+              pushMatrix();
+                  translate(-274, -247);
+                  rotate(r);
+                  
+                  noStroke();
+                  
+                  fill(50);
+                  rectMode(CENTER);
+                  rect(0, 0, 30, 20, 3);
+                  
+                  rect(9, 0, 30, 10, 2);
+                  
+                  fill(80);
+                  ellipse(-13.6, 0, 3, 20);
+                  
+                  fill(255, 100, 100, 150);
+                  ellipse(-3, 6, 3, 3);
+                  
+                  fill(255, 0, 0, lightFade);
+                  ellipse(-3, 6, 6, 6);
+                  
+                  fill(255, 255, 0, 60);
+                  arc(399, 0, 750, 100, 91, 270);
+                  arc(399, 0, 50, 100, -89, 90);
+                  
+                  fill(70);
+                  rect(-3, -4, 10, 8);
+                  
+                  fill(255, 100);
+                  ellipse(23, 0, 2, 10);
+                  
+                  noFill();
+                  stroke(255, 0, 0);
+                  strokeWeight(1);
+                  beginShape();
+                  curveVertex(38,  15);
+                  curveVertex(2,  -2);
+                  curveVertex(-8, -6);
+                  curveVertex(-17, -46);
+                  endShape();
+                  
+                  noFill();
+                  stroke(0, 200, 0);
+                  beginShape();
+                  curveVertex(65,  0);
+                  curveVertex(2,  -5);
+                  curveVertex(-7, -2);
+                  curveVertex(-73, -5);
+                  endShape();
+                  
+                  noStroke();
+                  
+                  pushMatrix();
+                      translate(-6, -6);
+                      rotate(66);
+                      
+                      fill(130);
+                      rect(-3, -4, 10, 8);
+                      
+                      for (var i = -6; i <= 0; i += 2) {
+                          stroke(100);
+                          strokeWeight(1);
+                          line(i, -2, i, -6);
+                      }
+                      
+                  popMatrix();
+                  
+                  noStroke();
+                  
+              popMatrix();
+              
+              // }
+              
+              if (rup) {
+                  if (r >= 170) {
+                      rup = false;
+                  } else {
+                      r += 0.1;
+                  }
+              } else {
+                  if (r <= 40) {
+                      rup = true;
+                  } else {
+                      r -= 0.1;
+                  }
+              }
+              
+              if (lighton) {
+                  if (lightFade >= 100) {
+                      lighton = false;
+                  } else {
+                      lightFade += 3;
+                  }
+              } else {
+                  if (lightFade <= 0) {
+                      lighton = true;
+                  } else {
+                      lightFade -= 3;
+                  }
+              }
+              
+          popMatrix();
+      };
+        
+        
+        /** Particle class */
+        class Particle {
+          constructor(x, y, col, life, velX = 0, velY = 0) {
+            this.x = x
+            this.y = y
+            this.color = col
+            this.life = life
+            this.maxLife = life
+            this.velX = velX
+            this.velY = velY
+            this.damping = 0.95
+            this.dead = false
+          }
+          update() {
+            if(this.dead) return
+            this.life--
+            this.velX *= this.damping
+            this.velY *= this.damping
+            this.x += this.velX
+            this.y += this.velY
+            if(this.life <= 0) this.dead = true
+          }
+          display() {
+            fill(...this.color, this.life / this.maxLife * 255)
+            noStroke()
+            rect(this.x - 4, this.y - 4, 8, 8)
+          }
+        }
+        let particles = []
+      
+      
+        /** Camera that tracks player */
+        const cam = {
+          x: 0, 
+          y: 0,
+          w: width,
+          h: height,
+          centerX: 0.5,
+          centerY: 0.5,
+          speed: 0.3,
+          bounds: {},
+          follow(x, y) {
+            let targetX = (x - width * this.centerX)
+            let targetY = (y - height * this.centerY)
+            
+            if(this.bounds.minX != undefined) {
+              targetX = Math.max(targetX, this.bounds.minX)
+            }
+            if(this.bounds.maxX != undefined) {
+              targetX = Math.min(targetX, this.bounds.maxX - width)
+            }
+            if(this.bounds.minY != undefined) {
+              targetY = Math.max(targetY, this.bounds.minY)
+            }
+            if(this.bounds.maxY != undefined) {
+              targetY = Math.min(targetY, this.bounds.maxY - height)
+            }
+            this.x += (targetX - this.x) * this.speed
+            this.y += (targetY - this.y) * this.speed
+          },
+          setBounds(bounds) {
+            this.bounds = bounds
+          },
+          run() {
+            translate(Math.round(-this.x), Math.round(-this.y))
+          },
+          inWindow(entity) {
+            return rectRectCollide(entity, this)
+          }
+        }
+        
+        /** Raycasting stuff */
+        //{
+        const sign = (n) => n < 0 ? -1 : n > 0 ? 1 : 0
+        /** returns the intersection point of two lines, if any */
+        function lineIntersect(x1, y1, x2, y2, x3, y3, x4, y4) {
+          const denom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
+          if(!denom) return
+        
+          const tNum = (x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)
+          const uNum = (x1 - x3) * (y1 - y2) - (y1 - y3) * (x1 - x2)
+        
+          const t = tNum / denom
+          const u = uNum / denom
+          if(t > 0 && t < 1 && u > 0 && u < 1) {
+            let endX = x1 + t * (x2 - x1), endY =  y1 + t * (y2 - y1)
+            return { x: endX, y: endY }
+          }
+          return false
+        }
+        
+        /** Gets the closest game object (crate, player, etc) */
+        const getClosestGameObjectIntersection = (x, y, angle, maxDistance) => {
+          const endX = x + Math.cos(angle) * maxDistance
+          const endY = y + Math.sin(angle) * maxDistance
+          let closestIntersection, closestDist;
+          let thisLine = [x, y, endX, endY]
+          for(const o of physicsObjects) {
+            if(!o.edges) continue;
+            // console.log(o.edges)
+            const intersections = o.edges.map(function(edge) {
+              return lineIntersect(...thisLine, ...edge)
+            })
+            // console.log(intersections)
+            for(const i of intersections) {
+              if(!i) continue
+              const distTo = dist(x, y, i.x, i.y)
+              if(!closestIntersection || distTo < closestDist) {
+                closestDist = distTo
+                closestIntersection = i
+              }
+            }
+          }
+          return closestIntersection || { x: endX, y: endY }
+        }
+        
+        /** Gets the closest tile */
+        function isSolidTile(data) {
+          return data && data !== '|'
+        }
+        const getClosestTileIntersection = (x, y, angle, maxDistance) => {
+          x /= BLOCK_SIZE
+          y /= BLOCK_SIZE
+          maxDistance /= BLOCK_SIZE
+          const dirX = Math.cos(angle)
+          const dirY = Math.sin(angle)
+          const moveX = Math.sqrt(1 + (dirY / dirX) ** 2)
+          const moveY = Math.sqrt(1 + (dirX / dirY) ** 2)
+        
+          let tileX = ~~x
+          let tileY = ~~y
+        
+          let stepX, stepY
+          let rayX, rayY;
+        
+          if(dirX < 0) {
+            stepX = -1
+            rayX = (x - tileX) * moveX
+          }else {
+            stepX = 1
+            rayX = (tileX + 1 - x) * moveX
+          }
+          if(dirY < 0) {
+            stepY = -1
+            rayY = (y - tileY) * moveY
+          }else {
+            stepY = 1
+            rayY = (tileY + 1 - y) * moveY
+          }
+        
+          let bTileFound = false
+          let currentDistance = 0;
+          while(!bTileFound && currentDistance < maxDistance) {
+            if(rayX < rayY) {
+              tileX += stepX
+              currentDistance = rayX
+              rayX += moveX
+            }else {
+              tileY += stepY
+              currentDistance = rayY
+              rayY += moveY
+            }
+            if(tileX >= 0 && tileX < tileMapSize.w && tileY >= 0 && tileY < tileMapSize.h) {
+              if(isSolidTile(tileData[tileX + tileY * tileMapSize.w])) {
+                bTileFound = true
+                // if(stepY > 0) break;
+              }
+            }
+          }
+          if(bTileFound) {
+            return { 
+              x: (x + dirX * currentDistance) * BLOCK_SIZE,
+              y: (y + dirY * currentDistance) * BLOCK_SIZE
+            }
+          }
+          return {
+            x: (x + dirX * maxDistance) * BLOCK_SIZE,
+            y: (y + dirY * maxDistance) * BLOCK_SIZE,
+          }
+        }
+        
+        /** Casts a ray, if it hits an object, it returns that point */
+        const castRay = (x, y, angle, maxDistance) => {
+          let ot = getClosestGameObjectIntersection(x, y, angle, maxDistance)
+          let tt = getClosestTileIntersection(x, y, angle, maxDistance)
+          return dist(x, y, ot.x, ot.y) < dist(x, y, tt.x, tt.y) ? ot : tt
+        }
+        const roundTo = (n, a) => Math.round(n / a) * a
+        
+        function renderRaycast(x, y, angle, fov, distance, c) {
+          fill(c)
+          stroke(c)
+          beginShape()
+          vertex(x, y)
+          const stepSize = Math.PI / 100
+          const stop = Math.ceil(fov / stepSize)
+          // console.log(stop)
+          for(var i = 0; i <= stop; i++) {
+            let a = angle + (i / stop) * fov - fov / 2
+            if(i && i < stop) {
+                a = roundTo(a, stepSize)
+            }
+            const pos = castRay(x, y, a, distance)
+            vertex(pos.x, pos.y)
+          }  
+          endShape(CLOSE)
+        } 
+        
+        //}
+        
+        /** game objects */
+        //{
+        /** Checks if two rectangles overlap */
+        function rectRectCollide(a, b) {
+          return a.x > b.x - a.w && a.x < b.x + b.w && a.y > b.y - a.h && a.y < b.y + b.h
+        }
+        /** basically same thing as above */
+        function rectRectNoVecCollide(x1, y1, w1, h1, x2, y2, w2, h2) {
+          return x1 > x2 - w1 && x1 < x2 + w2 && y1 > y2 - h1 && y1 < y2 + h2
+        }
+        
+        /** Keeps track of all objects in world */
+        let physicsObjects = []
+        
+        /** Physics object class */
+        class PhysicsObject {
+          constructor(x, y, w, h) {
+            this.x = x
+            this.y = y
+            this.w = w
+            this.h = h
+            this.center = { x: this.x + this.w / 2, y: this.y + this.h / 2 }
+            this.velX = 0
+            this.velY = 0
+            this.damping = 0.99
+            this.gravityScale = 1
+            this.elasticity = 0
+            this.mass = 1
+            this.friction = 0.1
+            physicsObjects.push(this)
+          }
+          update() {
+            if(!this.mass) return
+            const oldX = this.x, oldY = this.y
+        
+            this.center = { x: this.x + this.w / 2, y: this.y + this.h / 2 }
+        
+            this.velX *= this.damping
+            this.x += this.velX
+            this.velY = this.velY * this.damping + GRAVITY * this.gravityScale
+            this.y += this.velY
+        
+            const movingDown = this.velY > 0
+        
+            if(this.groundObject) {
+              this.velX *= (1 - this.friction)
+              this.groundObject = null
+            }
+            
+            this.left = false
+            this.right = false
+
+            for(var i = 0; i < physicsObjects.length; i++) {
+              const o = physicsObjects[i]
+              if(o == this || !rectRectCollide(this, o)) continue;
+              if(!this.collideWithObject(o) || !o.collideWithObject(this)) continue
+              const smallStepUp = o.y - oldY > this.h - GRAVITY
+              const isBlockedX = oldY + this.h > o.y && oldY < o.y + o.h
+              const isBlockedY = oldX + this.w > o.x && oldX < o.x + o.w
+              if(smallStepUp || isBlockedY || !isBlockedX) {
+                this.y = oldY < o.y ? o.y - this.h : o.y + o.h
+                if(!o.mass || (o.groundObject && movingDown)) {
+                  if(movingDown) {
+                    this.groundObject = o
+                  }
+                  this.velY *= -this.elasticity
+                }else if(o.mass) {
+                  this.velY = o.velY = (this.velY * this.mass + o.velY * o.mass) / (this.mass + o.mass)
+                }
+              }
+              if(!smallStepUp && (isBlockedX || !isBlockedY)) {
+                this.x = oldX < o.x ? o.x - this.w : o.x + o.w
+                this.left = oldX < o.x
+                this.right = !this.left
+                if(!o.mass) {
+                  this.velX *= this.elasticity
+                }else {
+                  this.velX = o.velX = (this.velX * this.mass + o.velX * o.mass) / (this.mass + o.mass)
+                }
+              }
+            }
+            const overlap = checkTileCollision(this.x, this.y, this.w, this.h)
+            if(overlap) {
+              if(!checkTileCollision(oldX, oldY, this.w, this.h)) {
+                const isBlockedX = checkTileCollision(this.x, oldY, this.w, this.h)
+                const isBlockedY = checkTileCollision(oldX, this.y, this.w, this.h)
+                if(isBlockedX || !isBlockedY) {
+                  this.x = oldX
+                  this.left = this.velX < 0
+                  this.right = !this.left
+                  this.velX *= this.elasticity
+                }
+                if(isBlockedY || !isBlockedX) {
+                  this.y = oldY
+                  this.velY *= this.elasticity
+                  this.groundObject = movingDown
+                }
+              }
+            }
+          }
+          collideWithObject(o) {
+            return 1
+          }
+        }
+        
+        
+        /** Player class  */
+        class Player extends PhysicsObject {
+          constructor(x, y, w, h) {
+            super(x, y, w, h)
+            this.jumpHeight = 12
+            this.maxSpeed = 7
+            this.xAccel = 0.5
+            this.friction = 0
+            this.character = true
+            this.dir = 1
+            this.landed = false
+            this.keyUp = false
+            this.found = false
+            this.deathImg = null
+          }
+          update() {
+            
+            if(this.groundObject && keyIsDown(38)) {
+              this.velY = -this.jumpHeight
+            }
+            // console.log('r ' + this.right, 'l ' + this.left)
+            if(keyIsDown(37)) {
+              this.velX = Math.max(this.velX - this.xAccel, -this.maxSpeed)
+              this.dir = -1
+              if(this.left && !this.groundObject) {
+                this.velY = min(this.velY, 0)
+                if(keyIsDown(38) && !this.keyUp) {
+                  this.velY = -this.jumpHeight
+                  this.velX = this.jumpHeight
+                }
+                for(var i = 0; i < 10; i++) {
+                  particles.push(new Particle(this.x, this.y + random(0, this.h), [255], 50, random(0, 1), random(-1, 0)))
+                }
+              }
+            }else if(keyIsDown(39)) {
+              this.dir = 1
+              this.velX = Math.min(this.velX + this.xAccel, this.maxSpeed)
+              if(this.right && !this.groundObject) {
+                this.velY = min(this.velY, 0)
+                if(keyIsDown(38) && !this.keyUp) {
+                  this.velY = -this.jumpHeight
+                  this.velX = -this.jumpHeight
+                }
+                for(var i = 0; i < 10; i++) {
+                  particles.push(new Particle(this.x + this.w, this.y + random(0, this.h), [255], 50, random(-1, 0), random(-1, 0)))
+                }
+              }
+            }else {
+              this.velX *= 0.9
+            }
+            this.keyUp = keyIsDown(38)
+
+            if(this.groundObject && !this.landed) {
+              for(var i = 0; i < 10; i++) {
+                particles.push(new Particle(this.x + random(0, this.w), this.y + this.h, [255], 50, random(-1, 1), random(-1, 0)))
+              }
+            }
+            this.landed = !!this.groundObject
+            super.update()
+          }
+          display() {
+            pushMatrix()
+            translate(this.x, this.y)
+            if(this.dir === -1) {
+              translate(this.w, 0)
+            }
+            scale(this.dir, 1)
+            scale(this.w / 200)
+            translate(-44, -44)
+            // const sc = 288 / 200
+            img.display('ninja', 10, 10)
+            popMatrix()
+          }
+          collideWithObject(o) {
+            return !o.guard
+          }
+        }
+
+        /** Guard Class */
+        class Guard extends PhysicsObject {
+          constructor(x, y, w, h) {
+            super(x, y, w, h)
+            this.seeDistance = 400
+            this.jumpHeight = 12
+            this.accel = 0.1
+            this.maxSpeed = 4
+            this.guard = true
+            this.friction = 0
+            this.awake = false
+          }
+          canSee(entity) {
+            if(!entity) return
+            const distToEntity = dist(this.center.x, this.center.y, entity.center.x, entity.center.y)
+            if(distToEntity > this.seeDistance) return
+            return this.castHits(this.x + 1, this.y + 1, entity.x, entity.y) ||
+                this.castHits(this.x + this.w - 1, this.y + 1, entity.x + entity.w, entity.y) ||
+                this.castHits(this.x + 1, this.y + this.h - 1, entity.x, entity.y + entity.h) ||
+                this.castHits(this.x + this.w - 1, this.y + this.h - 1, entity.x + entity.w, entity.y + entity.h)
+          }
+          castHits(x, y, ox, oy) {
+            const ray = castRay(x, y, Math.atan2(oy - y, ox - x), this.seeDistance)
+            return dist(x, y, ray.x, ray.y) > dist(x, y, ox, oy)  
+          }
+          chase(entity) {
+            if(!this.canSee(entity)) {
+              if(this.awake) {
+                this.awakeTimer++
+                this.awake = this.awakeTimer < 100
+              }
+              if(!this.awake) {
+                this.velX *= 0.95
+                this.target = false
+                this.awake = false
+                return
+              }
+            }else {
+              this.awake = true
+              this.awakeTimer = 0
+            }
+            
+            this.target = true
+            if(this.groundObject) {
+              if((entity.y + entity.h < this.y && !entity.groundObject) || this.right || this.left) {
+                // this.velY = -this.jumpHeight
+              }
+              if(this.right || this.left) {
+                this.velY = -this.jumpHeight
+              }
+            }
+            // this.accel 
+            this.velX = constrain(this.velX + sign(entity.center.x - this.center.x) * this.accel, -this.maxSpeed, this.maxSpeed)
+          }
+          display() {
+            pushMatrix()
+            translate(this.x - this.w / 2, this.y - this.h / 2)
+            scale(max(sign(this.velX), 1), 1)
+            badguy(0, 0, this.w)
+            popMatrix()
+          }
+          update() {
+            this.chase(player)
+            if(rectRectCollide(this, player)) {
+              player.found = true
+            }
+            super.update()
+          }
+          collideWithObject(o) {
+            return !o.character
+          } 
+        }
+
+        /** Creates edges for a box for raycasting */
+        class RaycastObject extends PhysicsObject {
+          update() {
+            this.edges = [
+              [this.x, this.y, this.x + this.w, this.y],
+              [this.x, this.y, this.x, this.y + this.h],
+              [this.x + this.w, this.y, this.x + this.w, this.y + this.h],
+              [this.x, this.y + this.h, this.x + this.w, this.y + this.h]
+            ]
+            super.update()
+          }
+        }
+        
+        /** Crate class */
+        class Crate extends RaycastObject {
+          display() {
+            img.display('box', this.x, this.y, this.w, this.h)
+          }
+        }
+        
+        class Portal extends PhysicsObject {
+          update() {
+            if(rectRectCollide(this, player)) {
+              player.won = true
+            }
+            if(frameCount % 10 === 0) {
+              particles.push(new Particle(this.center.x + random(-5, 5), this.y + 10 + random(-5, 5), [0, 255, 255], 50, random(-1, 1), random(-3, 0)))
+            }
+            super.update()
+          }
+          display() {
+            img.display('diamond', this.x, this.y, this.w, this.h)
+          }
+          collideWithObject(o) {
+            return !o.character
+          }
+        }
+
+        class LevelMessage {
+          constructor(msg, x, y) {
+            this.msg = msg
+            this.x = x
+            this.y = y
+          }
+          run() {
+            ctx.save()
+            fill(255)
+            noStroke()
+            ctx.shadowBlur = 5
+            ctx.shadowColor = '#075AAD '
+            textAlign(CENTER, CENTER)
+            textSize(30)
+            text(this.msg, this.x, this.y)
+            ctx.restore()
+          }
+        }
+        let levelMessages = []
+        
+        class EnemyCamera {
+          constructor(x, y, angle, sequence) {
+            this.x = x
+            this.y = y
+            this.angle = angle
+            this.fov = Math.PI / 4
+            this.maxDistance = 400
+            this.sequence = sequence
+            this.time = 0
+            this.sequenceLen = this.sequence.reduce((time, c) => time + c[1], 0)
+            this.sequenceIndex = 0
+            this.sequenceTime = 0
+            this.viewBox = { x: this.x - 400, y: this.y - 400, w: 800, h: 800}
+          }
+          runSequence(t) {
+            if(this.sequenceTime >= this.sequence[this.sequenceIndex][1]) {
+              this.sequenceTime = 0
+              this.sequenceIndex = (this.sequenceIndex + 1) % this.sequence.length
+            }
+            let current = this.sequence[this.sequenceIndex]
+            if(current[0] === 'rotate') {
+              this.angle += current[2] / current[1]
+            }
+            this.time = (this.time + 1) % this.sequenceLen
+            this.sequenceTime++
+          }
+          canSee(entity) {
+            // return Math.random() < 0.001
+            if(!entity) return
+            const angle = Math.atan2(entity.center.y - this.y,entity.center.x - this.x)
+            // console.log(angle, normAngle(this.angle))
+            const distToEntity = dist(this.x, this.y, entity.center.x, entity.center.y)
+            if(distToEntity < this.maxDistance && Math.abs(angle - normAngle(this.angle)) < this.fov / 2) {
+              const ray = castRay(this.x, this.y, angle, this.maxDistance)
+              if(dist(this.x, this.y, ray.x, ray.y) > distToEntity) {
+                return true
+              }
+            }
+          }
+          display() {
+            if(!cam.inWindow(this.viewBox)) return
+            this.runSequence()
+            this.seesPlayer = this.canSee(player)
+            renderRaycast(this.x, this.y, this.angle, this.fov, this.maxDistance, this.seesPlayer ? color(255, 0, 0, 50) : color(255, 255, 0, 50))
+            if(this.seesPlayer) {
+              player.found = true
+            }
+            pushMatrix()
+            translate(this.x, this.y)
+            stroke(0);
+            strokeWeight(3);
+            line(0,  - BLOCK_SIZE * 0.5, 0, 0);
+            noStroke();
+            fill(80);
+            arc(0, -BLOCK_SIZE * 0.5, 15, 10, 0, Math.PI / 2);
+            rotate(this.angle / Math.PI * 180)
+            img.display('fakeCam', -BLOCK_SIZE * 0.5, -BLOCK_SIZE * 0.5, BLOCK_SIZE, BLOCK_SIZE)
+            popMatrix()
+          }
+        }
+        let cameras = []
+        //}
+        
+        /** Tile map */
+        //{
+        let tileData = []
+        let tileMapSize = { w: 0, h: 0 }
+        
+        function initTileData(w, h) {
+          tileMapSize = { w, h }
+          tileData = new Array(w * h).fill(0)
+        }
+        
+        function putTileData(x, y, data) {
+          tileData[x + y * tileMapSize.w] = data
+        }
+
+        
+        function checkTileCollision(x, y, w, h, velX, velY) {
+          const minX = Math.max(0, Math.floor(x / BLOCK_SIZE)),
+                minY = Math.max(0, Math.floor(y / BLOCK_SIZE)),
+                maxX = Math.min(Math.floor((x + w - 1) / BLOCK_SIZE), tileMapSize.w - 1),
+                maxY = Math.min(Math.floor((y + h - 1) / BLOCK_SIZE), tileMapSize.h - 1);
+          
+          for(let y = minY; y <= maxY; y++) {
+            for(let x = minX; x <= maxX; x++) {
+              let index = y * tileMapSize.w + x
+              if(tileData[index]) {
+                return {
+                  x: velX < 0 ? x - Math.floor(x / BLOCK_SIZE) * BLOCK_SIZE : x + w - Math.floor((x + w) / BLOCK_SIZE) * BLOCK_SIZE,
+                  y: velY < 0 ? y - Math.floor(y / BLOCK_SIZE) * BLOCK_SIZE : y + h - Math.floor((y + h) / BLOCK_SIZE) * BLOCK_SIZE
+                }
+              }
+            }
+          }
+          return false
+        }
+        
+        function displayTileData() {
+          const minX = Math.max(0, Math.floor(cam.x / BLOCK_SIZE)),
+                minY = Math.max(0, Math.floor(cam.y / BLOCK_SIZE)),
+                maxX = Math.min(Math.floor((cam.x + width) / BLOCK_SIZE), tileMapSize.w - 1),
+                maxY = Math.min(Math.floor((cam.y + height) / BLOCK_SIZE), tileMapSize.h - 1);
+          for(var ix = minX; ix <= maxX; ix++) {
+            for(var jy = minY; jy <= maxY; jy++) {
+              const i = ix + jy * tileMapSize.w
+              if(!tileData[i]) continue;
+              const x = (i % tileMapSize.w) * BLOCK_SIZE
+              const y = Math.floor(i / tileMapSize.w) * BLOCK_SIZE
+              switch(tileData[i]){
+                  case 'm': img.display('metal', x, y, BLOCK_SIZE, BLOCK_SIZE)
+                  break
+                  case 'r': img.display('rust', x, y, BLOCK_SIZE, BLOCK_SIZE)
+                  break
+                  case '|':
+                    fill(0, 200, 255, 100)
+                    noStroke()
+                    rect(x, y, BLOCK_SIZE, BLOCK_SIZE)
+                  break
+              }
+            }
+          }
+        }
+        
+        function clearData() {
+            tileData = []
+            physicsObjects = []
+            cameras = []
+            particles = []
+            levelMessages = []
+        }
+        
+        
+        //}
+        
+        /** Run everything */
+        //{
+        
+        /** Player var */
+        let player;
+        
+       
+        /** Setting up the scenes */
+        let deathTimer = 0
+        function goToGame() {
+          levelLoaded = false
+          currentLevel = null
+          scene.to('game')
+        }
+
+        const bgMask = cache(BLOCK_SIZE, BLOCK_SIZE, function(c, ctx) {
+          ctx.drawImage(img.imgs.metal(), 0, 0, BLOCK_SIZE, BLOCK_SIZE)
+          ctx.fillStyle = '#0005'
+          ctx.fillRect(0, 0, BLOCK_SIZE, BLOCK_SIZE)
+        }, 'pattern')
+        
+        // buttons for game
+        const homeBtn = new Button({
+            x: 20, y: 20, w: 30, h: 30, onClick: () => scene.to('menu'), icon: icons.home
+        })
+        const itFeelsGreatBtn = new Button({
+          x: 150, y: 450, w: 300, h: 50, text: "It feels great!", onClick: () => scene.to('win')
+        })
+        // create game scene
+        scene.use('game', () => {
+          if(!levelLoaded) loadLevel()
+          background(0)
+
+          pushMatrix()
+          cam.follow(player.center.x, player.center.y)
+          cam.run()
+          if(!player.found && !player.reachedPortal && !player.won) {
+
+            ctx.save()
+            ctx.fillStyle = bgMask
+            ctx.fillRect(cam.x, cam.y, width, height)
+            ctx.restore()
+
+            levelMessages.forEach(msg => msg.run())
+
+            cameras.forEach(camera => camera.display())
+
+            displayTileData()
+
+            physicsObjects.forEach(o => {
+            //   if(!cam.inWindow(o)) return
+              o.update()
+              o.display()
+            })
+
+            
+            // console.log(particles.length)
+            for(let i = particles.length - 1; i >= 0; i--) {
+              particles[i].update()
+              particles[i].display()
+              if(particles[i].dead) particles.splice(i, 1)
+            }
+
+          }
+          popMatrix()
+
+          // special cases
+
+          // something happened to the player
+          if((player.found || player.reachedPortal) && !player.img) {
+            player.img = get(0, 0, width, height)
+          }
+
+          // fell off the map
+          if(player.y > tileMapSize.h * BLOCK_SIZE) {
+            // reload
+            player.dead = true
+          }
+
+          // restarting the level
+          if(keyIsDown(82)) {
+            player.found = false
+            player.img = null
+            return loadLevel()
+          }
+
+          if(player.won) {
+            background(0)
+            pushMatrix()
+            fill(0, 100)
+            rect(0, 0, width, height)
+            fill(255)
+            textAlign(CENTER, CENTER)
+            pushMatrix()
+            ctx.shadowColor = "#0f0"
+            ctx.shadowBlur = 10
+            textSize(50)
+            text("You found\nthe diamond!", width / 2, height / 2 - 60)
+            popMatrix()
+            textSize(25)
+            text("You have just saved the world!\nHow does it feel?", width / 2, height / 2 + 40)
+            popMatrix()
+            itFeelsGreatBtn.run()
+          }
+          else if(player.found) {
+            image(player.img, 0, 0)
+            pushMatrix()
+            // ctx.globalAlpha = constrain((deathTimer - 5) / 10, 0, 1)
+            fill(0, 100)
+            rect(0, 0, width, height)
+            fill(255)
+            textAlign(CENTER, CENTER)
+            pushMatrix()
+            ctx.shadowColor = "#075AAD"
+            ctx.shadowBlur = 10
+            textSize(50)
+            text("You were caught!", width / 2, height / 2 - 20)
+            popMatrix()
+            textSize(25)
+            text("Press R to restart", width / 2, height / 2 + 20)
+            popMatrix()
+          }
+          else if(player.reachedPortal) { 
+            deathTimer++  
+            image(player.img, 0, 0)
+            if(deathTimer > 50) {
+              deathTimer = 0
+              player.reachedPortal = false
+              player.img = null
+              levelIndex++
+              completedLevels = max(levelIndex, completedLevels)
+              loadLevel()
+            }
+          }
+          else if(player.dead) {
+            deathTimer++
+            if(deathTimer > 40) {
+              player.dead = false
+              deathTimer = 0
+              loadLevel()
+            }
+          }
+          
+          // player made it to the end of the level
+          if(player.x > tileMapSize.w * BLOCK_SIZE) {
+            player.reachedPortal = true
+          }
+          
+          homeBtn.run()
+        })
+        const backhomefromwin = new Button({
+          x: 250, y: 500, w: 100, h: 40, text: "Home", onClick: () => scene.to('menu')
+        })
+        // create win scene
+        scene.use('win', () => {
+          img.display('backgroundImage', 0, 0)
+          fill(0, 200)
+          rect(0, 0, width, height)
+          fill(7, 90, 173)
+          textAlign(CENTER, CENTER)
+          textSize(20)
+          text(getCenteredText("Without the diamond, the power of the elites is broken. You are a real Ninja", 300, 300, 450, 0), 300, 300)
+        backhomefromwin.run();
+        })
+        
+        
+        // buttons for menu
+        const playBtn = new Button({
+          x: 225, y: 300, w: 150, h: 50, onClick: () => scene.to('game'), text: "Play"
+        })
+        const howBtn = new Button({
+          x: 225, y: 370, w: 150, h: 50, onClick: () => scene.to('how'), text: "How"
+        })
+        const levelsBtn = new Button({
+          x: 225, y: 440, w: 150, h: 50, onClick: () => scene.to('levels'), text: "Levels"
+        })
+        const aboutBtn = new Button({
+          x: 225, y: 510, w: 150, h: 50, onClick: () => scene.to('about'), text: "About"
+        })
+        
+        // create menu scene
+        scene.use('menu', () => {
+          img.display('backgroundImage', 0, 0, width, height)
+          fill(0, 0, 0, 200)
+          rect(0, 0, width, height)
+          pushMatrix()
+          textAlign(CENTER, CENTER)
+          stroke(255)
+          strokeWeight(3)
+          // ctx.fillStyle = titleMask
+          ctx.strokeStyle = "#075AAD "
+          ctx.shadowBlur = 5
+          ctx.shadowColor = '#075AAD '
+          textSize(80)
+          text("Ninja", 300, 100)
+          text("run", 300, 200)
+          textSize(20)
+          text("run", 300, 147)
+          popMatrix()
+          playBtn.run()
+          howBtn.run()
+          levelsBtn.run()
+          aboutBtn.run()
+        })
+        
+        // buttons for levels scene
+        const levelBtns = []
+        levels.forEach((level, index) => {
+          const x = (index % 5)
+          const y = ~~(index / 5)
+          levelBtns.push(new Button({
+            x: 75 + x * 100, y: 50 + y * 100, w: 50, h: 50, onClick: () => {
+              if(completedLevels < index) return
+              levelIndex = index
+              goToGame()
+            }, text: (index + 1).toString()
+          }))
+        })
+        const homeFromLevels = new Button({
+            x: 250, y: 500, w: 100, h: 40, text: "Home", onClick: () => scene.to('menu')
+        })
+        // create levels scene
+        scene.use('levels', () => {
+          img.display('backgroundImage', 0, 0, width, height)
+          fill(0, 0, 0, 200)
+          rect(0, 0, width, height)
+          levelBtns.forEach((b, i) => {
+            b.run()
+            if(completedLevels < i) {
+              pushMatrix()
+              fill(178, 137, 59)
+              stroke(178, 137, 59)
+              strokeWeight(3)
+              line(b.x, b.y, b.x + b.w, b.y + b.h)
+              popMatrix()
+            }
+          })
+          homeFromLevels.run()
+        })
+        const face = "https://www.facebook.com/phongson.nguyen.9421/"
+        // create levels scene
+        scene.use('about', () => {
+          img.display('backgroundImage', 0, 0, width, height)
+          fill(0, 0, 0, 200)
+          rect(0, 0, width, height)
+          textAlign(CENTER, CENTER)
+          textSize(23)
+          fill(178, 137, 59)
+          ctx.shadowColor = "#075AAD "
+          text(getCenteredText("I make this game in 4 days using Visual Studio Code, and this is my result." , 300, 300, 500, 225), 300, 230)
+          text(getCenteredText("Hope you enjoy the game!" , 300, 300, 550, 225), 300, 273)
+          textSize(27)
+          text(getCenteredText("Make by: Hai Dang",300, 300, 450, 200), 300, 325)
+          textSize(21);
+          text(getCenteredText("Facebook:\n", 300, 300, 450, 200), 300, 400)
+          textSize(17);
+          text(getCenteredText(face, 300, 300, 450, 200), 300, 400)
+            homeFromLevels.run()
+        })
+          
+          
+        
+
+        // buttons for how scene
+        const homeFromHowBtn = new Button({
+          x: 250, y: 520, w: 100, h: 40, text: "Home", onClick: () => scene.to('menu')
+        })
+        // create how scene
+        scene.use('how', () => {
+          img.display('backgroundImage', 0, 0, width, height)
+          fill(0, 0, 0, 200)
+          rect(0, 0, width, height)
+          ctx.save()
+          textAlign(CENTER, CENTER)
+          textSize(23)
+          fill(178, 137, 59)
+          ctx.shadowBlur = 5
+          ctx.shadowColor = "#075AAD "
+          text(getCenteredText("An evil group has created a magic diamond that gives them power over the world. You have been sent on a misson take the diamond. Let's be a ninja to save the world. \n\n\n Use arrow key to play.", 300, 300, 450, 200), 300, 270)
+          ctx.restore()
+          homeFromHowBtn.run()
+        })
+    
+        scene.use('load', () => {
+            !img.loaded && img.load()
+            background(0)
+            textAlign(CENTER, CENTER)
+            textSize(25)
+            fill(255)
+            text("Loading...", 300, 300)
+            if(img.loaded) {
+                if(!scene.transitionStarted) {
+                  scene.to('menu')
+                }
+                return 
+            }
+        })
+        // begin by loading
+        scene.to('load', false)
+
+        draw = function() {
+          textFont("Sigmar One", 30)
+          scene.run()
+        }
+        
+        //}
+        </script>
+    </body>
+</html>
+<!-- done... -->
