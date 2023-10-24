@@ -34,6 +34,7 @@ html * {
 	font-family: "Bitter", sans-serif;
 	color: #f5f4ed;
 	background-color: #e8e8e8;
+  overflow-x: hidden;
   }
   
   
@@ -142,6 +143,19 @@ html * {
     color: #302f2fd7;
     text-decoration: none;
     }
+    header h1 :hover {
+      margin-top: -7.5%;
+      margin-left: 1%;
+      font-size: 20px;
+      font-size: 2rem;
+      letter-spacing: 15px;
+      font-weight: bold;
+      font-family: "Open Sans", sans-serif;
+      text-transform: uppercase;
+      font-weight: bold;
+      color: #302f2fd7;
+      text-decoration: none;
+    }
     header p {
     font-size: 13px;
     font-size: 1rem;
@@ -155,9 +169,10 @@ html * {
     border-color: rgba(0, 0, 0, 0);
     filter: brightness(0) invert(1);
     transform: rotate(180deg);
-    width: 15.5%;
+    width: 12%;
     opacity: 0.001;
-    margin-left: -4.25%;
+    margin-left: -1%;
+    transition: width 0s, opacity 2s, margin-left 0s, transform 0s;
     }
     .back:hover{
     margin-top: 5%;
