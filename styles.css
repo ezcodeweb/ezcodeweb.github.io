@@ -2,6 +2,47 @@
 
 /* Base Styles
 ********************************************************************* */
+@media only screen and (max-width: 600px) {
+    body {
+	    font-size: 1.5em;
+	    line-height: 1.6;
+	    font-weight: 400;
+	    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+	    color: #222;
+	    overflow-x: hidden;
+    }
+	.three.columns {
+		width: 45%;
+		margin-right: 7px;
+	}
+	.offset-by-three.column,  .offset-by-three.columns {
+		margin-left: 20%;
+		margin-right: 20%;
+	}
+	#hov {
+		border-color: black;
+		border-width: 3.5px;
+		margin: 1px;
+		cursor: pointer;
+		color: black;
+		text-transform: lowercase;
+		border-radius: 10px;
+		display: inline-block;
+		overflow: hidden;
+		transition: all 0.4s cubic-bezier(.85, .00, .14, .98);
+		width: 45%;
+		max-height: 40px;
+	}
+	#hov h1{
+		font-size: 2.25rem;
+		margin-top: -7px;
+	}
+	.change{
+		font-size: 85%;
+		margin-left: 25px;
+	}
+}
+
 html {
 	font-size: 62.5%;
 }
@@ -762,4 +803,8 @@ pre, blockquote, dl, figure, table, p, ul, ol, form {
 #hov:hover::before {
 	clip-path: circle(100% at 50% 50%);
 	border-color: black;
+}
+.font{
+	font-size: 100%;
+	margin-bottom: -3%;
 }
