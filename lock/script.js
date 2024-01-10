@@ -8,8 +8,8 @@ let colors = {
     lock: "hsl(210, 61%, 18%)"
   },
   violet: {
-    body: "hsl(267, 35%, 39%)",
-    lock: "hsl(220, 86%, 11%)"
+    body: "hsl(87, 29%, 40%)",
+    lock: "hsl(87, 47%, 11%)"
   },
   orange: {
     body: "hsl(24, 62%, 53%)",
