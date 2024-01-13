@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html>
     <!-- header setup -->
@@ -8,15 +5,17 @@
         <!-- standard setup -->
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <!-- import some nice google fonts -->
-        <link href="styles1.css" rel="stylesheet">
-        <link href="styles2.css" rel="stylesheet">
+        <link href='https://fonts.googleapis.com/css2?family=Josefin+Sans' rel='stylesheet'>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Sigmar+One&display=swap" rel="stylesheet">
         <!-- name of the game -->
-        <title>Ninja run run</title>
+        <title>Spin-off of "Vigil of the Ninja (Official Release)"</title>
         <!-- some quick stylin' -->
         <style>
             body {
               background: black;
-              color: #075AAD;
               overflow: hidden;
               display: flex;
               height: 100vh;
@@ -70,7 +69,7 @@
             }
             .close:hover {
                 width: 15vmin;
-                color: rgba(57, 128, 122, 0.625);
+                color: rgb(245, 50, 50, 0.625);
             }
             .close:active {
                 color: rgb(245, 245, 245, 0.75);
@@ -78,49 +77,6 @@
             .line {
                 margin: 1vmin;
                 z-index: 1;
-            }
-            .hyper{
-              position: absolute;
-              top: 15px;
-              left: 15px;
-              width: 100px;
-              height: 100px;
-              text-align: center;
-              font-size: 200%;
-              border-style: ridge;
-              color: gray;
-            }
-            .aa{
-              position: absolute;
-              top: 5px;
-              left: 15px;
-              margin-top: 5px;
-            }
-            .ab{
-              position: absolute;
-              top: 45px;
-              left: 15px;
-            }
-            .ac{
-              position: absolute;
-              top: 85px;
-              left: 15px;
-            }
-            .ad{
-              position: absolute;
-              top: 125px;
-              left: 15px;
-            }
-            .ae{
-              position: absolute;
-              top: 165px;
-              left: 15px;
-            }
-            a{
-              color: rgba(202, 202, 202, 0.699);
-              font-size: large;
-              font-weight: bold;
-              text-decoration: none;
             }
         </style>
     </head>
@@ -648,75 +604,89 @@
          /** Level setup */
         //{
         const levels = [
-        {
-              map: [
-        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
-        "m@  ^                                                                                                    m",
-        "mm                                                                                                       m",
-        "mm                                                                                                       m",
-        "mm                       m                                                                               m",
-        "mm                      m                                                                                m",
-        "mg  ^                  mgg                                                                                ",
-        "mmmmmmmmm mm mm mm mm mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm mm mm mm m m m m m m mmmmmmmmmmm m m m mmmmmm"
-              ],
-              messages: [
-                "<- This is you", 
-                "<- This is bad guy"
-              ]
-          },
           {
               map: [
-        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
-        "mm@                  m                                                            m                      m",
-        "mm                   m mmmmmmm                          m                         m mmmm                 m",
-        "mm                   m m     m                         m m                        m m  m                 m",
-        "mm                   m m     m                        m   m                       m m  m               m m",
-        "mm                   m m     m                       m     m                      m m  m              m  m",
-        "mg    m  m             m     g                      m      g                        m  g             m  ^ ",
-        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm mm mm mm mmmmmmmmmmmmmmmmmmmm m m m m m mmmmmmmmmmmm m m m mmmmmm"
+                  "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+                  "m             ^               m",
+                  "m         mmmmmmmmmm          m",
+                  "m       m mmmmmmmmmmm         m",
+                  "m     ^   mmmmmmmmmmmm    ^   m",
+                  "m  ^     mmmmmmmmmmmmmm       m",
+                  "m@    m   mmmmmmmmmmmmmm       ",
+                  "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
+              ],
+              cameraSetup: [
+                { angle: 0, sequence: [['rotate', 300, Math.PI], ['wait', 100], ['rotate', 300, -Math.PI], ['wait', 100]]},
+                { angle: Math.PI / 2, sequence: [['rotate', 200, Math.PI / 2], ['wait', 50], ['rotate', 200, -Math.PI / 2], ['wait', 50]]},
+                { angle: Math.PI / 2, sequence: [['rotate', 200, Math.PI / 2], ['wait', 50], ['rotate', 200, -Math.PI / 2], ['wait', 50]]}
               ],
               messages: [
-                "Hooray"
+                "A secret mission",
+                "You can wall jump",
+                "One that you alone\ncan achieve",
+                "You have a mission",
               ]
           },
           {
             map: [
-        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
-        "mm@                                                                                                      m",
-        "mm                                                                                                       m",
-        "mm                                                    m                                                  m",
-        "mm                                                   m                                                   m",
-        "mm           ^                                      m                                                    m",
-        "mg                                                 m  g                                                 ^ ",
-        "mmmmmmmmmmmm m m m m mm mm mm mm mm mm m mm mm mm mmmmmmmmmm mm mm mmm m m m m m mmmmmmmmmmmm m m m mmmmmm"
-            ],
-            messages: [ "Jump and jump maze", "Finish" ]
-          },
-          {
-            map: [
-        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
-        "mm@                                                                             m                        m",
-        "mm                                                                              m mmmmm                  m",
-        "mm                                                                              m m   m                  m",
-        "mm           ^                                                                  m m   m                  m",
-        "mg                                                                                m  g                  ^ ",
-        "mmmmmmmmmmmm m m m m mm mm mm mm mm mm m mm mm mm mmm mmm mm mm mm mmm m m m m m mmmmmmmmmmmm m m m mmmmmm",
-        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm       mmmmmm"
+              "mmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+              "mmmmmmmmmm        mmmmmmmmmm",
+              "mmmmmm                mmmmmm",
+              "mmm           m mmmmm    mmm",
+              "mm            m m  &      mm",
+              "m    ^        m m          m",
+              "m@                 ^        ",
+              "mmmmmmmmmmmmmmmmmmmmmmmmmmmm"
             ],
             messages: [
-              "Jump and run", "Good job!"
+              "Some would call you noble",
+              "Avoid cameras"
+            ],
+            cameraSetup: [
+                { angle: Math.PI / 2, sequence: ['wait', 200] }
             ]
           },
           {
             map: [
-        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
-        "mm@                             m                                               m                        m",
-        "mm                              m                                               m mmmmm                  m",
-        "mm                          m   m mmmm                           mmmm           m m   m                  m",
-        "mm                         m    m m     m                       m               m m   m                  m",
-        "mm           ^            m     m m          m                 m                m m   m                  m",
-        "mg                       m        m       m     m             m   g               m  g                  ^ ",
-        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm         mm mm mm mm mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm m m m mmmmmm"
+              "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+              "m                              ",
+              "m                             m",
+              "m                            mm",
+              "m                           mmm",
+              "m   ^                      mmmm",
+              "m@           ^       g    mmmmm",
+              "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
+            ],
+            messages: [ "Others, a villian", 'Look out for guards']
+          },
+          {
+            map: [
+              "mmmmmmmmmmmmmmm",
+              "m             m",
+              "mg           gm",
+              "mm           mm",
+              "m      ^       ",
+              "m    #        m",
+              "m@   ##       m",
+              "mmmmmmmmmmmmmmm" 
+            ],
+            messages: [
+              "Your life is in danger"
+            ]
+          },
+          {
+            map: [
+              "mmmmmmmmmmmmmm",
+              "m         g  m",
+              "m         m   ",
+              "m@   ^       m",
+              "mm         m m",
+              "mm m   m  mm m",
+              "mm m   m  mm m",
+              "mm m   m  mm m",
+              "mm m   m  mm m",
+              "mm m   m  mm m",
+              "mm m   m  mm m",
             ],
             messages: [
               "They want to trap you"
@@ -724,154 +694,512 @@
           },
           {
             map: [
-        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
-        "m@       ^                                                                                               m",
-        "m                                                                                                        m",
-        "m                                                                                                        m",
-        "m                                                                                                        m",
-        "m                                                                                                        m",
-        "m                                                                                                         ",
-        "mmm mm mm mm mm mm mm mm mm mm mm m m m m m m mm mm mm mm mm mm mm mm mm mm mm mm mm mm mm mm mm mm mmmmmm"
+              "mmmmmmmmmmmmmmm",
+              "m &           m",
+              "m             m",
+              "mm  ^          ",
+              "m@         g  m",
+              "mmmmm   g  m  m",
+              "mmmmm   m  m  m",
+              "mmmmmmmmmmmmmmm",
             ],
-            messages: [ "Just jump up" ]
+            cameraSetup: [
+              { 
+                angle: Math.PI / 2, 
+                sequence: [['wait', 50], ['rotate', 200, -Math.PI / 2], ['wait', 50], ['rotate', 200, Math.PI / 2]]
+              }
+            ],
+            messages: [ "They lie in wait" ]
           },
           {
             map: [
-        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
-        "m@m      ^  m          m                         m                                  m                m     m     m        m",
-        "m m mmmmmmm m  mmmmmmm m                         m  mmmmmm                 m mggggggm                m mmm m mmm m  mmmm  m",
-        "m m m       m  m     m m                         m  m      m m m m m      m   mgggggm                m m m m m m m  m     m",
-        "m m m mmmmmmm  m     m                           m  m      m m m m m     m     mggggm                m m m m m m m  m  mmmm",
-        "m m m m        m       mmm                       m  m      m m m m m    m       mmmmm                m m m m m m m  m     m",
-        "m   m   mmmmmmmmgmgmgmmmg                           m      m m m m m   m                               m m   m m    mmm    ",
-        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm mm mm mm mm mm mmmmmmmmmmm m m m m m mmmmmmmmmmmmmmmmmmmm m m m m m mmmmmmmmmmmmmmmmmmmmmmm"
+
+                "mmmmmmmmmmmmmmmmmmmmmmm",
+                "m         & &         m",
+                "m                     m",
+                "m         m mmmmmmmmm m",
+                "m        mm mm        m",
+                "m       mmm mmm       m",
+                "m  ^   mmmm mmmm      m",
+                "m     mmmmm mmmmm     m",
+                "m    mmmmmm mmmmmm    m",
+                "m   mmmmmmm mmmmmmm   m",
+                "m  mmmmmmmm mmmmmmmm  m",
+                "m@mmmmmmmmggggggggmmm ",
+                "mmmmmmmmmmmmmmmmmmmmmmm"
             ],
-            messages: [ "A harder maze" ]
+            cameraSetup: [{
+                    angle: 0,
+                    sequence: [
+                        ['rotate', 200, Math.PI * 1]
+                    ]
+                },
+                {
+                    angle: 0,
+                    sequence: [
+                        ['rotate', 200, Math.PI * 1]
+                    ]
+                },
+                {
+                    angle: 0,
+                    sequence: [
+                        ['rotate', 200, Math.PI * 1]
+                    ]
+                },
+            ],
+            messages: [ "They deceive" ]
         },
           {
               map: [
-        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
-        "m@       ^        ^                                                        m                                                                           m",
-        "mm                    mmmmm                        mmmmmmm                 m mmmm                               mmmm                                   m",
-        "mm                   m                            m                        m m     m   m                       mggg                                    m",
-        "mm                  m                            m                         m m     m m m   m                  mgggg                                    m",
-        "mm                 m                            m                          m m     m m m m m                 mggggg                                    m",
-        "mg                m     ggg                    m     ggggg                   m     m m m m m                mgggggg             m  m  m  m  m  m  m  ^  ",
-        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm m m m m m mmmmmm mm mm mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
+                  "mmmmmmmmmmmmmmmmmmmmmmm",
+                  "m                      ",
+                  "m& #                  m",
+                  "m  mmmmmmmmmmmmmmmmm  m",
+                  "m  m   #        #     m",
+                  "m^ m   # gggggg #     m",
+                  "m  m  mmmmmmmmmmmmmmmmm",
+                  "m ^m   #        #     m",
+                  "m  m   # gggggg #     m",
+                  "m^ mmmmmmmmmmmmmmmmm  m",
+                  "m  m                  m",
+                  "m          @          m",
+                  "mmmmmmmmmmmmmmmmmmmmmmm"
               ],
-              messages: ["run", "as fast as you can", "yeah!"]
+              cameraSetup: [{
+                  angle: 0,
+                  sequence: [
+                      ['rotate', 200, Math.PI * 1]
+                  ]
+              }],
+              messages: ["up", "up","up"]
+          },
+          {
+              map: [
+                  "mmmmmmmmmmmmmmmmmmmmmmm",
+                  "m    &     &     &    m",
+                  "m    m     m     m    m",
+                  "m                     m",
+                  "m@#                 m m",
+                  "mmm  m  m  m  m  m  m m",
+                  "m    ^              m m",
+                  "m g g g g g g g g m   m",
+                  "m g g g g g g g g m m m",
+                  "mmmmmmmmmmmmmmmmmmmmm m",
+                  "m                     m",
+                  "m  mmmmmmmmmmmmmmmmmmmm",
+                  "m                     m",
+                  "m     #         #      ",
+                  "mmmmmmmmmmmmmmmmmmmmmmm"
+              ],
+              cameraSetup: [{
+                      angle: 0,
+                      sequence: [
+                          ['rotate', 200, Math.PI * 1]
+                      ]
+                  },
+
+                  {
+                      angle: 0,
+                      sequence: [
+                          ['rotate', 200, Math.PI * 1]
+                      ]
+                  },
+
+                  {
+                      angle: 0,
+                      sequence: [
+                          ['rotate', 200, Math.PI * 1]
+                      ]
+                  },
+                  {
+                      angle: 0,
+                      sequence: [
+                          ['rotate', 200, Math.PI * 2]
+                      ]
+                  },
+              ],
+              messages: ["The odds are stacked\nagainst you"]
+          },
+          {
+              map: [
+                  "mmmmmmmmmmmmmmmmmmmmmmm",
+                  "m@ #   m               ",
+                  "mmmmmm mmm mmmmmmmmmmmm",
+                  "m  &   m     mmmmmmmmmm",
+                  "m      mm #           m",
+                  "m mmmmmmm mmm   m  g  m",
+                  "m m   &    mmm  mmmmmmm",
+                  "m m  mmmmmmmmmm       m",
+                  "m m        mmmmm      m",
+                  "m mmmmmmm  mmmmmm  mmmm",
+                  "m mm  &   mmmmmmmm    m",
+                  "m mmm  m  gmmmmmmmm   m",
+                  "m mmm mmmmmmmmmmmmmm  m",
+                  "m  m         &     m  m",
+                  "m  mm   #             m",
+                  "m      ### #   g g    m",
+                  "mmmmmmmmmmmmmmmmmmmmmmm"
+              ],
+              cameraSetup: [
+                {
+                    angle: 0,
+                    sequence: [
+                        ['rotate', 200, Math.PI * 1]
+                    ]
+                },
+                {
+                    angle: 0,
+                    sequence: [
+                        ['rotate', 200, Math.PI * 1]
+                    ]
+                },
+                {
+                    angle: 0,
+                    sequence: [
+                        ['rotate', 200, Math.PI * 1]
+                    ]
+                },
+                {
+                    angle: Math.PI / 2,
+                    sequence: [
+                        ['rotate', 200, Math.PI / 2],
+                        ['wait', 50],
+                        ['rotate', 200, -Math.PI / 2],
+                        ['wait', 50]
+                    ]
+                }
+              ]
           },
           {
             map: [
-        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
-        "m@                                                                                          gggggm                            m                                  m",
-        "mmmmmmmmmmmmmmmmmmmmm                             mm       m                            mm mmggggm                            m   mmmmmmmmmm                     m",
-        "mgggggggggggggggggggm                           mm   m   m m                           m     mgggm                            m   mggggggggm                     m",
-        "mgggggggggggggggggggm                         mm     m m m m   m                      m       mggm                            m   mggggggggm                     m",
-        "mgggggggggggggggggggm                       mm       m m m m m m                     m         mmm                            m   mggggggggm                     m",
-        "mggggggggggggggggggg                      mm         m m m m m m                    m                 m m m m m m m m m m m       mgggggggg                       ",
-        "mmmmmmmmmmmmmmmmmmmmmmm mm mm mm mm mm mm mmmmmmmmmm m m m m m m mm mmm mmmm mmmmm mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
+            "mmmmmmmmmmmmmmmmmmmm",
+            "m@  m               ",
+            "m ^ m  mmm mmmmmmmmm",
+            "m   m              m",
+            "m   m     m        m",
+            "m   m   # &        m",
+            "m   m   #     #    m",
+            "m   m   m     m   mm",
+            "m   m ^       mm   m",
+            "m   m         m  # m",
+            "m   mmmmmmmmmmm  mmm",
+            "m   m      ^       m",
+            "m   m           #  m",
+            "m   m           mmmm",
+            "m   m m   mmmmmm   m",
+            "m   m              m",
+            "m   mmmmmmmm       m",
+            "m   #         mm   m",
+            "mm  m     ^       mm",
+            "mm g g g g   g g#  m",
+            "mmmmmmmmmmmmmmmmmmmm",
+
+            ],
+            cameraSetup: [
+            { angle: 0, sequence: [['rotate', 200, Math.PI * 1]]},
+
+
+            ],
+            messages: [
+                "Falling!",
+                "Hide!",
+                "Climb!",
+                "These guards haven't been fed in days."
+                ]
+            },
+          {
+            map: [
+              "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+              "mmmmmm   ^                ^   m",
+              "mmmmmmm    mmmmmmmmmmmmmmmmmmmm",
+              "mmmmmmm   mmmmmmmmmmmmmmmmmmmmm",
+              "mmmmm   mmmmmmmmmmmmmmmmmmmmmmm",
+              "mmmmm mmmmmmmmmmmmmmmmmmmmmmmmm",
+              "mmmmm               mmmmmmmmmmm",
+              "mmmmmmmmmmmmmm      mmmmmmmmmmm",
+              "mmmmmmmmmmmmmmmmmmm  mmmmmmmmmm",
+              "m             m &^ m          m",
+              "m     m    mm mmmmmmmmmmmmmm  m",
+              "m     m   mmm mmmmm   mmmmmm  m",
+              "m  &     mmmm # # # # mmmmmm  m",
+              "m         mmmmm m m m m        ",
+              "m@    mm  mmmmmmmmmmm   m   &mm",
+              "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
+            ],
+            cameraSetup: [
+              { angle: 0, sequence: [['rotate', 300, Math.PI], ['wait', 100], ['rotate', 300, -Math.PI], ['wait', 100]]},
+              { angle: Math.PI / 2, sequence: [['rotate', 200, Math.PI / 2], ['wait', 50], ['rotate', 200, -Math.PI / 2], ['wait', 50]]},
+              { angle: Math.PI / 2, sequence: [['rotate', 200, Math.PI / 2], ['wait', 50], ['rotate', 200, -Math.PI / 2], ['wait', 50]]}
+            ],
+            messages: [
+              "Why are you up Here?",
+              "Trolled >:)",
+              "?"
             ]
           },
           {
               map: [
-        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
-        "m@       m                                                                       m                                                          m                    m",
-        "mmmmmmmm mmmmmmmmmmmmmmmmmmmmm  mmmmmmmmmmm                                      m   mmmmmmmmmmm                                            mm  mmmmmmmm         m",
-        "m        mggggggggggggggggggggm           m                                      m  ^mgggggggg m                                              m        m  m      m",
-        "m mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm m   m m m m m m m m m m m m m m m      m^  mmmmmmmmm m                                               m m m  mm    m    m",
-        "m   m   m   m   m   m   m   m   m   m   m m                                      m  ^mgggggggggm                                                     m        m  m",
-        "m m   m   m   m   m   m   m   m   m   m   m                                          mggggggggg                                                     m          ^  ",
-        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm m m m m m m m m m m m m m m m m m mmmmmmmmmmmmmmmmmmmmmmmmm mmm mm m m m m mm mm mm mm mm mm mm mm mm mmmmmmmmmmmmmmm"
+                "mmmmmmmmmmmmmmmmm",
+                "m@              m",
+                "mmmmmm mmmmmmmm m",
+                "m      m        m",
+                "m      m        m",
+                "m      &        m",
+                "m    |||||      m",
+                "m    | ^ |      m",
+                "m    |   |      m",
+                "m    | * |      m",
+                "m    mmmmm      m",
+                "mmmmmmmmmmm   mmm",
+                "mm            m  ",
+                "mm mmmmmmmmmmmm m",
+                "mm mmmmmmmmmmmm m",
+                "mm       ^      m",
+                "mmmmmmmmmmmmmmmmm",
               ],
-              messages: ["up","up","up","hard work!"]
+              messages: ['What?',"It's a fake"],
+              cameraSetup: [
+                { angle: Math.PI / 2, sequence: [['wait', 100]] }   
+              ]
           },
           {
-            map: [
-  "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
-  "m@     m                                                          m           m                                                                            m",
-  "m      m mmmm                 mmm                                 m   mmmmmmm m                                 mm                                         m",
-  "m      m m    m              mggg                                 m   m       m                               mm  ggm                                      m",
-  "m        m      m           mgggg                                 m   m mmmmmmm                             mm    ggggm                                    m",
-  "mmmmmmmmmm        m        mggggg                                 m   m                                   mm      ggggggm                                  m",
-  "mgggggggg           m     mgggggg           m m m m m m m m           mmmmmmmmm                         mm        ggggggggm     m m m m m m m m m m m m m   ",
-  "mmmmmmmmmmmmmm        mmmmmmmmmmmmmmmmmmmmmm m m m m m m m mmmmmmmmmmmmmmmmmmmmmmmm mm mm mm mm mm mm mm          mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
+              map: [
+                "mmmmmmmmmmmmmmmm",
+                "m   m  & gm    m",
+                "m   m    mm    m",
+                "m   m     m    m",
+                "m    g mm m    m",
+                "m mmmm m  m    m",
+                "m   m  m mm    m",
+                "m   m mm  m    m",
+                "m   m  mm m    m",
+                "m   mm m  mg  gm",
+                "m   m  m mmm  mm",
+                "m@  ^ mm        ",
+                "mmmmmmmmmmmmmmmm",
+              ],
+              messages: ["Climb"],
+              cameraSetup: [
+                { 
+                    angle: 0, 
+                    sequence: [
+                        ['wait', 100],
+                        ['rotate', 200, Math.PI], 
+                        ['wait', 100], 
+                        ['rotate', 200, -Math.PI]
+                    ]
+                },
             ]
           },
           {
+              map: [
+                "mmmmmmmmmmmmmmmmmmmm",
+                "m  &    &    &     m",
+                "m                  m",
+                "mm                 m",
+                "m@ ^        ^ #    m",
+                "mmmmmmmmmmmmmmmmmm m",
+                "mg    g            m",
+                "mm    m            m",
+                "m     m            m",
+                "m m   m            m",
+                "m m   m            m",
+                "m m             ^  m",
+                "m mmmmmmmmmmmmmmmmmm",
+                "m                  m",
+                "m                  m",
+                "m               m  m",
+                "m       |||||      m",
+                "m  ^   |||||||     m",
+                "m     m|||||||m    m",
+                "m    mm|||&|||mm    ",
+                "mmmmmmmmmmmmmmmmmmmm",
+              ],
+              messages: ["Patience","Run!",'Phew',"You're getting close"],
+              cameraSetup: [
+                {
+                    angle: Math.PI,
+                    sequence: [
+                        ['wait',50],
+                        ['rotate',150,-Math.PI],
+                        ['wait', 100],
+                        ['rotate',150,Math.PI],
+                    ]
+                },    
+                {
+                    angle: Math.PI,
+                    sequence: [
+                        ['wait',75],
+                        ['rotate',150,-Math.PI],
+                        ['wait', 75],
+                        ['rotate',150,Math.PI],
+                    ]
+                },  
+                {
+                    angle: Math.PI,
+                    sequence: [
+                        ['wait',100],
+                        ['rotate',150,-Math.PI],
+                        ['wait', 50],
+                        ['rotate',150,Math.PI],
+                    ]
+                },  
+                {
+                    angle: 0,
+                    sequence: [
+                        ['wait',20],
+                        ['rotate',100,-Math.PI],
+                        ['wait', 100],
+                        ['rotate',130,Math.PI],
+                    ]
+                },  
+              ],
+          },
+          {
             map: [
-  "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
-  "m@    m                     #  #  #  #  #     m        m                                 m                           m        m                                         m                        m",
-  "mm    m                                       m  mmmmm m                          mmmmmm m                           m mmm    m  mmmmm                           m mggggm                        m",
-  "mmm   m                                       m  m     m                         m       m                           m mgm    m  m                              m   mmmmm                        m",
-  "mmmm  m                                          m mmmmm                        m m     mm    m                      m mgm    m  m    m                        m     mmmm                        m",
-  "mmmmm                                         mmmm                             m     m   m   m  m        m           m mgm    m  m      m                     m       mmm                        m",
-  "mgggg                                         mg    mmmm   m   m   m   m      m  m          m       m   m              m         m        m     m m m m      m             m  m  m  m  m  m       ",
-  "mmmmmmmm m m m mm mm mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm   m   m   m   mmmmm     m  m mmmmmmm  mm   mm   m m m mm mmmmmmmmmmmmmmmmmm      mmmm       mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
-          ]
-},
-{
-  map: [
-        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
-        "m@        m            m     m      m                         # # # # #  m       m                              m                                                                       m",
-        "mmmmmmmmm m            m mmm m  mmm m   mmm                              m  mmmm m                       m mggggm     mm                                                       mmmmmmmm m",
-        "m         m            m m m m  m m m   mgm                              m  m    m                      m   mmggm    m   m     m       m                         m            m  #      m",
-        "m mmmmmmmmm            m m m m  m m m   mgm                                 m mmmm                     m   m mggm   m    m   m m     m m                        mg           m   mmmmmmmm",
-        "m                      m m m m  m m m   mgm                              mmmm        m                m  m    mmm  m     m m m m   m m m mm         m          mgg          m           m",
-        "mmmmmmmmmmm m m m m m    m m    m m     mg         m m m m m             mgg  mmmm  m  m   m m       m            m      m m m m m m m m     mm    m      m   mggg         m  m          ",
-        "mmmmmmmmmmm           mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm      m   m mmmmmmmmmmmmmmmmmmmmmmmm m m m m m m m m         mm   m mm   mmmmmmmmmmmmmmmm  m mm mmmmm"
-  ]
-},
-{
-  map: [
-        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
-        "m@        m            m     m      m                                 #  m       m                              m                                                        m",
-        "mmmmmmmmm m            m mmm m  mmm m   mmm                              m  mmmm m                       m mggggm     mm                                        mmmmmmmm m",
-        "m         m            m m m m  m m m   mgm                              m  m    m                      m   mmmmm    m                            m            m         m",
-        "m mmmmmmmmm            m m m m  m m m   mgm                                 m mmmm                     m   m mggm   m                            mg           m        mmm",
-        "m                      m m m m  m m m   mgm                              mmmm                         m  m    mmm  m      mm         m          mgg          m           m",
-        "mm m m m m  mmmmmmmmmm   m m    m m     mg         m m m m m m m m m     mgg  mmmm  m mm   m m       m            m           mm    m      m   mggg m m m   m  m    m     ",
-        "m          mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm      m    mmmmmmmmmmmmmmmmmmmmmmmmm          mm   m mm   mmmmmmmmmmmm mmm  m mm  m mm"
-  ]
-},
-{
-  map: [
-        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
-        "m@        m                                          # m       m                            ggm                                                        m                    m      m                                                                  m",
-        "mmmmmmmmm m                mmmm                        m  mmmm m                       m mggggm     mm                                        mmmmmmmm m                    m mmmm m    m                                m                        #   m",
-        "m         m               mgggg                        m  m    m                      m   mmmmm    m                            m            m         m                    m m    m   mg                               m                       mmmmmmm",
-        "m mmmmmmmmm              mggggg                           m mmmm                     m   m mggm   m                            mg           m        mmm                    m m m     mgg                              m                     m         ",
-        "m                       mgggggg                        mmmm                         m  m    mmm  m      mm         m          mgg          m           m                    m m    mmmmmmmmmm mm mm mm mm             mgggmm mm mm mm      m         mm",
-        "mm m m m m  mmmmmmmmmm mggggggg   m m m m m m m m m    mgg  mmmm  m mm   m m       m            m           mm    m  m   m   mggg m m m   m  m    m                           m   mm                       m         mmmmm           m   m           mm",
-        "m          mmmmmmmmmmmmmmmmmmmmmmm                  mmmmmmmmmmmmmm      m   mmmmmmmmmmmmmmmmmmmmmmmmmm          mm    mmmmmmmmmmmm     m mm    mm   mmmmmm mmm  m mm  m mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm mm mm mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
-  ]
-},
-{
-  map: [
-        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
-        "m@        m                                         #  m       m                            ggm                                                        m                    m      m                                                                                          #  #  #  #  #  #     m                                                                                                                                #                                               m    #                                                        m",
-        "mmmmmmmmm m                mmmm                        m  mmmm m                       m mggggm     mm                                        mmmmmmmm m                    m mmmm m    m                                m                                                                         m  mm   mmmmmmmmmmmmmmmmm                                                m mmmmmmmmmmmmm                                      m  m m m       mmmmmmm mm mm mm mm mm mm mm mmmmm  m mm m  mmmm                                   m m m m m m    m",
-        "m         m               mgggg                        m  m    m                      m   mmmmm    m                            m            m         m                    m m    m   mg                               m                               m          m                               m  m    m                 m                          m                  m  m                           m m m m mm m          m   m m m      m                                    m m  m  m             m                       m               m",
-        "m mmmmmmmmm              mggggg                           m  mmm                     m   m mggm   m                            m            m        mmm                    m m m     mgg                              m                               m         m m                                  m    m                   m                       m                  m   m mm mm mm mm              m                     m    m m m  mm m                                     m m  m  m           m m m                    m                 ",
-        "m                       mgggggg                        mmmmm                        m  m    mmm  m      mm         m          mg           m           m                    m m    mmmmmmmmmm mm mm mm mm             m ggmm mm mm mm                 m        m m m                               mmmmmmm                       m                    m   mm m mm        m    m m           m           m                     m                                mmm                  m m  m  m         m m m m                   m         m      mm",
-        "m           mmmmmmmmmm mggggggg   m m m m m m m m m    mg g  mmm  m mm   m m       m            m           mm    m  m   m   mgg  m m m   m  m    m                           m   mm                       m         mmmmm           m      m        m       m m m m                               mggggg  m                       m     m m m       #                  m       m             m        m                     m                        m m m m m      m m m m  m       m     m       m m m m m mm               m         m      m#m",
-        "mm m m m m                     mm                   mmmmmmmmmmmmmm      m   mmmmmmmmmmmmmmmmmmmmmmmmmm          mm    mmmmmmmmmmmm     m mm    mm   mmmmmm mmm  m mm  m mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm mm mm mmmmmmmmmmmmmmmmmmmmm m   m mmmmmmmmmm m m m m m mm mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm m m m  mmmm m m m m m mmmm m m m m mmmmmmmmmmmmmmmmm mm mm mmm m  mmmmm mmm            mmmmmmmmmmmmmmm m mm mm mm mm mmm            mm        m  mmmmmmmmmmmmmmmmmm m m m m m m   mm m mmm mm m mmmmm m m m   m mmmmm"
-  ]
-},
-{
-  map: [
-        "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
-        "m@        m                                          # m       m                                                                                       m                    m      #                                                                                          #  #  #  #  #  #     m                                                                                                                                                                                m    #                                                           m                          m",
-        "mmmmmmmmm m                mmmm                        m  mmmm m                       m            mm                                        mmmmmmmm m                    m mmmm m    m                                m                                                                         m  mmm  mmmmmmmmmmmmmmmmm                                                m mmmmmmmmmmmmmmmmmmmmmm                             m  m m m       mmmmmmm mm mm mm mm mm mm mm mmmmm  m mm m  mmmm                                   m m m m m m       m mmmmmmmmmmmmmmmmmmm mmm  m",
-        "m         m               mgggg                 m      m  m    m                      m            m                            m            m         m                    m m    m   mg                               m                               m          m                               m  m    m                 m                          mm                 m  m                           m m m m mm m          m   m m m      m                                    m m  m  m             m                       m             m    m m                        m",
-        "m mmmmm # m              mggggg                m          m  mmm                     m   m        m                            m            m        mmm                    m m m     mgg                              m                               m         m m                m                 m    m    m              m                       m                  m   m mm mm mm mm              m                     m    m m m  mm m                                     m m  m  m           m m m                    m               m   m m                 m     *m",
-        "m       mm              mgggggg           m   m        mmmmm                        m      m     m      mm         m          mg           #           m                    m m    mmmmmmmmmm mm mm mm mm             m ggmm mm mm mm                 m        m m m              m m              mmmmmmm     m                 m                    m   mm m mm        m    m m           m           m                     m                                mmm                  m m  m  m         m m m m                   #         m        m m m                m      mm",
-        "m           mmmmmmmmmm mggggggg   m m m m   m     m    mg g  mmm  m mm   m m       m         m  m           mm    m  m   m   mgg  m m m   mm m    m                           m   mm                       m         mmmmm           m      m        m       m m m m            m m m              mggggg  m  #                     m    m m m       #                  m       m             m        m                     m                        m m m m m      m m m m  m       m     m       m m m m m mm               mm        m             #           m   m      m#m",
-        "mm m m m m                     mm                   mmmmmmmmmmmm m      m   mmmmmmmmmmmm       mmmmmmm          mm    mmmmmmmmmmmm     m mm    mm   mmmmmm mmm  m mm  m mmmmmmmm mmmmmmmmmmmmmmmmmmmmmmmmmmmm mm mm mmmmmmmmmmmmmmmmmmmmm m   m mmmmmmmmmm m m m m m mm m m m m m m mmm mm mmmmmmmmmmmmmmmmmmmm mm m mm mm mmm m m m  mmmm m m m m m mmmm m m m m mmmmmmmmmmmmmmmmm mm mm mmm m  mmmmm mmm            mmmmmmmmmmmmmmm m mm mm mm mm mmm            mm        m  mmmmmmmmmmmmmmmmmm m  m m m m m   mm m mmm mm m mmm mm m m    mmmmmmmmmmmmmmmmm m m m mmmmmm mmmmm"
-  ]
-}
-
-
+                "mmmmmmmmmmmmmmmmmmmmmmmmm",
+                "m         m ^ mmmmmmmm   ",
+                "m mmmm ## m @ mm    mm mm",
+                "m mmmm mmmm   mm    mm mm",
+                "m mmmm mmmm   mm #  mm mm",
+                "m mmmm mmmm   mm### mm mm",
+                "m m    mmmg   gm####mm mm",
+                "m m    mmmmm mmmmmmmmm mm",
+                "m m        g g         mm",
+                "m m    mmmmm mmmmmmmmm mm",
+                "m m    mmmmg gmmmmm    mm",
+                "m mmmmmmmmmm mmmmmm    mm",
+                "m mmmmmmmmmg gmmmmm    mm",
+                "m mmmmmmmmmm mmmmmm    mm",
+                "m mmmmmmmmmg gmmmmm    gm",
+                "m^mmmmmmmmmm mmmmmm    mm",
+                "m^mmmmmmmmmg gmmmmm    gm",
+                "m^mmmmmmmmmm mmmmmm    mm",
+                "m^mmmmmmmmmg gmmmmm    mm",
+                "m^mmmmmmmmmm mmmmmm    mm",
+                "m                      mm",
+                "mmmmmmmmmmmmmmmmmmmmmmmmm",
+            ],
+            messages: ["freefall",'c','l','i','m','b']
+          },
+          {
+              map: [
+                "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+                "m@    ^            m      &       &m              mmm  g  &m",
+                "mmmmmm mmmmmmmmmmmmm    #    m            mmmmmmm  mm&mm   m",
+                "m          mmmmmmmmmm  mmmmmmmmmmmmm      m     mm         m",
+                "m  mmmmmmm  mmm   mmmm             mg    gmggg ggg mmmmm   m",
+                "m        mm  m  m  mmmmmmmmmmmmmm  mmm mmmmmmm mmmmm   m   m",
+                "mmmmmmm   mm   mmm                #m                   #   m",
+                "m         mmmmmmmmm  g    g #     #m mm  mmmmmmmmmmmm  mmmmm",
+                "m mmmmm mmmmmmmmmmmmmmmmmmmmmmmmmmmm # m  m      &     m   m",
+                "m     m   m   &     &      &    &  mmm mm              m   m",
+                "mmmm  m   m            ^           m   mmmm   g g g g  m   m",
+                "m  m  mmm mmmmmmmmmmmmmm       mmmmm   mmmm  mmmmmmmmmmm   m",
+                "m  m  m   m                       &m mmmmm  mm         m   m",
+                "m &   m   m  mmmmmmmmmmmmmmmmm     m   m   mmm  mmmmm  m   m",
+                "m  m  m   m  mmmmmmmmmmm  &  mm           mmm     mmm  m   m",
+                "m  m  m mmm  mgg ggm         mmmmmmmmmmmmmmmm     mmm  m   m",
+                "m  m  m   m  mmm mmm  mm                  mmm     mmm  m   m",
+                "m  m  m   m  mgg ggm  mm  mmmmmmmmmmmmmmgm          mmmm   m",
+                "m  m  m   m  mmm mmm  mm           m   mgm  mmmmmmm        m",
+                "m  m  m   m  mgggggm  mmmmmmmmmm       mgm  mmmmmmmmmmmmmmmm",
+                "m         m  mgggggm  mm &      #  mmm mgm  m  gg  mm  m   m",
+                "m     #mmmm  mgggggm  mm    mmmmmmmm   mgm  m  mm  mm  m   m",
+                "m   # #   mggggggggm        m   g  m   mgm  m      mm  m   m",
+                "mmmmmmm   mmmmmmmmmmmmmm    mmmmm  m   mgg  gggggggmm  m   m",
+                "mmmmmmm       mmmmmmmmmmm   m   g  m   mmmmmmmmmmmmmm  m   m",
+                "mmmmmmm mmmmm  mmmmmm   mmmmm   mmm      mg               mm",
+                "mmmmmmm   mmmm  mmmm                     mmmmmmmmmmmm    mmm",
+                "mmmmmmmmm mmmmm  mm  mmmmmm   mm                         mmm",
+                "m*        mmmmmm    mmmmgggggggmm    #      g   g        mmm",
+                "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
+              ],
+              cameraSetup: [
+                {
+                    angle: 0,
+                    sequence: [
+                        ['rotate', 200, Math.PI * 1]
+                    ]
+                },
+                {
+                    angle: 0,
+                    sequence: [
+                        ['rotate', 200, Math.PI * 1]
+                    ]
+                },
+                {
+                    angle: 0,
+                    sequence: [
+                        ['rotate', 200, Math.PI * 1]
+                    ]
+                },
+                {
+                    angle: 0,
+                    sequence: [
+                        ['rotate', 200, Math.PI * 1]
+                    ]
+                },
+                {
+                    angle: 0,
+                    sequence: [
+                        ['rotate', 200, Math.PI * 1]
+                    ]
+                },
+                {
+                    angle: 0,
+                    sequence: [
+                        ['rotate', 200, Math.PI * 1]
+                    ]
+                },
+                {
+                    angle: 0,
+                    sequence: [
+                        ['rotate', 200, Math.PI * 1]
+                    ]
+                },
+                {
+                    angle: 0,
+                    sequence: [
+                        ['rotate', 200, Math.PI * 1]
+                    ]
+                },
+                {
+                    angle: 0,
+                    sequence: [
+                        ['rotate', 200, Math.PI * 1]
+                    ]
+                },
+                {
+                    angle: 0,
+                    sequence: [
+                        ['rotate', 200, Math.PI * 1]
+                    ]
+                },
+                {
+                    angle: 0,
+                    sequence: [
+                        ['rotate', 200, Math.PI * 1]
+                    ]
+                },
+                {
+                    angle: 0,
+                    sequence: [
+                        ['rotate', 200, Math.PI * 1]
+                    ]
+                },
+                {
+                    angle: 0,
+                    sequence: [
+                        ['rotate', 200, Math.PI * 1]
+                    ]
+                },
+              ],
+              messages: [
+                "The maze of security",
+                "We're watching you",
+              ]
+          },
         ]
         
         let currentLevel;
@@ -917,18 +1245,35 @@
                 }
             }
             player = new Player(playerX, playerY, BLOCK_SIZE * 0.5, BLOCK_SIZE * 0.5)
-            cam.x = 0
-            cam.y = 0
+            cam.x = player.center.x - width / 2
+            cam.y = player.center.y - height / 2
             cam.setBounds({
                 minX: 0, minY: 0,
                 maxX: levelWidth * BLOCK_SIZE,
                 maxY: levelHeight * BLOCK_SIZE
-            })      
+            })
+            
             levelLoaded = true  
           }
+        const howToLevel = {
+          map: [
+            "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+            "m      ^            ^         m",
+            "m   mmmmmmmmmmmmmmmmm         m",
+            "mm        ^         m         m",
+            "mmmmmmmmmmmmmmmmm   m         m",
+            "m                  mm         m",
+            "m           mmmm mmm          m",
+            "m  ^    m mmm ^  mmm          m",
+            "m@     ^  mmm #  mmm          m",
+            "mmmmmmmmmmmmmmmmmmmm          m",
+            "mmmmmmmmmmmmmmmmmmmm          m",
+          ],
+          messages: ["Tunnels", "Leap of faith","What brought you here?", "Welcome, brave spy", "Crate","You can jump off of walls"]
+        }
         //}
         let levelIndex = 0//levels.length - 1
-        let completedLevels = 0
+        let completedLevels = localStorage.getItem("NINJA_VIGIL/completedLevels") || 0
         let levelLoaded = false
 
         
@@ -1189,44 +1534,81 @@
                   
                   var ninja = function (x, y, s, r) {
                   
-                    stroke(7, 90, 173);
-                      strokeWeight(7);
-                      fill(0, 0, 0);
-                      ellipse(463,535,85,85);
-                      fill(0, 0, 0);
-                      strokeWeight(3);
-                      line(480, 523, 495, 535);
-                      line(505, 550, 480, 550);
-
+                  pushMatrix();
+                  scale(s);
+                  translate(x,y);
+                  rotate(r);
+                  
+                  noStroke();
+                  fill(0, 0, 0);
+                  
+                  rect(107,103,200,200);
+                  
+                  fill(217, 130, 76);
+                  rect(153,153,154,50);
+                  
+                  fill(168, 0, 0);
+                  rect(107,133,200,20);
+                  
+                  fill(64, 64, 64);
+                  rect(107,251,200,20);
+                  
+                  stroke(168, 0, 0);
+                  strokeWeight(10);
+                  line(86,175,111,140);
+                  line(66,160,111,138);
+                  
+                  fill(0, 0, 0);
+                  noStroke();
+                  ellipse(218, 173, 20, 17);
+                  ellipse(282, 173, 20, 17);
+                  
+                  stroke(0, 0, 0);
+                  strokeWeight(3);
+                  line(236, 169, 197, 159);
+                  line(297, 168, 268, 163);
+                  
+                  popMatrix();
+                  
                   }; // This is faith's code
                   var badguy = function (x, y, s) {
                   
-                    stroke(173, 0, 3);
-                      strokeWeight(3);
-                      fill(0,0,0);
-                      ellipse(50,230,35,35);
-                      fill(0, 0, 0);
-                      strokeWeight(2);
-                      line(55, 225, 60, 230);
-                      line(55, 240, 65, 240);
-
-                      stroke(173, 0, 3);
-                      strokeWeight(3);
-                      fill(0,0,0);
-                      ellipse(150,275,45,45);
-                      fill(0, 0, 0);
-                      strokeWeight(2);
-                      line(155, 267, 163, 272);
-                      line(170, 285, 157, 285);
-
-                      stroke(173, 0, 3);
-                      strokeWeight(3);
-                      fill(0,0,0);
-                      ellipse(75,300,40,40);
-                      fill(0, 0, 0);
-                      strokeWeight(2);
-                      line(80, 290, 89, 295);
-                      line(82, 305, 95, 305);
+                  pushMatrix();
+                  scale(s);
+                  translate(x,y);
+                  
+                  noStroke();
+                  fill(64, 64, 64);
+                  
+                  rect(107,103,200,200);
+                  
+                  fill(161, 157, 155);
+                  rect(107,153,200,50);
+                  
+                  fill(64, 64, 64);
+                  rect(87,133,240,20);
+                  
+                  fill(64, 64, 64);
+                  rect(107,251,200,20);
+                  
+                  fill(0, 0, 0);
+                  noStroke();
+                  ellipse(170,176,40,40);
+                  ellipse(260,176,40,40);
+                  
+                  stroke(0, 0, 0);
+                  strokeWeight(3);
+                  line(108,176,305,176);
+                  
+                  fill(0, 0, 0);
+                  rect(257,247,27,35);
+                  rect(277,239,7,35);
+                  
+                  fill(36, 36, 36);
+                  noStroke();
+                  rect(108,254,199,19);
+                  
+                  popMatrix();
                   
                   }; // This is faith's code
                   var securityCamera1 = function (x, y, r, s) {
@@ -1236,9 +1618,77 @@
                           
                           // Lights {
                           
+                          pushMatrix();
+                              translate(-510, 40);
+                              rotate(87);
+                              
+                              stroke(0);
+                              strokeWeight(3);
+                              line(-275, -279, -275, -254);
+                              
+                              noStroke();
+                              fill(80);
+                              arc(-275, -283, 15, 10, 0, 180);
+                              arc(-275, -282.7, 15, 4, -180, 0);
+                              
+                          popMatrix();
+                          
+                          pushMatrix();
+                              translate(-274, -247);
+                              rotate(r);
+                              
+                              noStroke();
+                              
+                              fill(50);
+                              rectMode(CENTER);
+                              rect(0, 0, 30, 20, 3);
+                              
+                              rect(9, 0, 30, 10, 2);
+                              
+                              fill(80);
+                              ellipse(-13.6, 0, 3, 20);
+                              
+                              fill(150, 255, 150, 150);
+                              ellipse(-3, 6, 3, 3);
+                              
+                              fill(0, 255, 0, lightFade2);
+                              ellipse(-3, 6, 6, 6);
+                              
+                              fill(255, 255, 0, 60);
+                              arc(197, 0, 350, 70, 91, 270);
+                              arc(197, 0, 30, 70, -89, 90);
+                              
+                              fill(130);
+                              rect(-3, -4, 10, 8);
+                              
+                              fill(255, 100);
+                              ellipse(23, 0, 2, 10);
+                              
+                              for (var i = -6; i <= 0; i += 2) {
+                                  stroke(100);
+                                  strokeWeight(1);
+                                  line(i, -2, i, -6);
+                              }
+                              
+                              noStroke();
+                              
+                          popMatrix();
                           
                           // }
                           
+                          if (lighton2) {
+                              if (lightFade2 >= 100) {
+                                  lighton2 = false;
+                              } else {
+                                  lightFade2 += 3;
+                              }
+                          } else {
+                              if (lightFade2 <= 0) {
+                                  lighton2 = true;
+                              } else {
+                                  lightFade2 -= 3;
+                              }
+                          }
                           
                           rectMode(CORNER);
                           
@@ -1267,6 +1717,21 @@
                           point(-11, -9);
                           point(-11, -11);
                           
+                          point(8, -9);
+                          point(8, -11);
+                          point(10, -9);
+                          point(10, -11);
+                          
+                          point(-9, 8);
+                          point(-9, 10);
+                          point(-11, 8);
+                          point(-11, 10);
+                          
+                          point(8, 8);
+                          point(8, 10);
+                          point(10, 8);
+                          point(10, 10);
+                          
                           rectMode(CORNER);
                           
                       popMatrix();
@@ -1286,7 +1751,8 @@
                       quad(600, 0, 375, 0, 370, 180, 600, 600);
                       
                       rectMode(CENTER);
-                      
+                      fill(200);
+                      rect(55, 155, 20, 10);
                       
                       fill(200, 0, 0);
                       rect(55, 153, 18, 4);
@@ -1312,10 +1778,60 @@
                       vertex(304, 125);
                       endShape();
                       
+                      // Wires {
+                      noFill();
+                      stroke(0, 255, 0);
+                      beginShape();
+                      vertex(316, 102);
+                      vertex(316, 84);
+                      vertex(181, 84);
+                      vertex(181, 14);
+                      vertex(93, 14);
+                      vertex(93, 0);
+                      endShape();
                       
-                      ninja(1200, 900, 400, 500);
+                      stroke(255, 255, 0);
+                      beginShape();
+                      vertex(313, 102);
+                      vertex(313, 87);
+                      vertex(178, 87);
+                      vertex(178, 17);
+                      vertex(90, 17);
+                      vertex(90, 0);
+                      endShape();
+                      
+                      stroke(255, 0, 0);
+                      beginShape();
+                      vertex(310, 102);
+                      vertex(310, 90);
+                      vertex(175, 90);
+                      vertex(175, 20);
+                      vertex(15, 20);
+                      vertex(15, 150);
+                      endShape();
+                      
+                      stroke(0, 0, 255);
+                      beginShape();
+                      vertex(307, 102);
+                      vertex(307, 93);
+                      vertex(172, 93);
+                      vertex(172, 23);
+                      vertex(18, 23);
+                      vertex(18, 150);
+                      endShape();
+                      // }
+                      
                       noStroke();
                       fill(130);
+                      rect(194, 88, 10, 20);
+                      rect(299, 88, 10, 20);
+                      rect(177, 72, 20, 10);
+                      rect(177, 32, 20, 10);
+                      rect(161, 17, 10, 20);
+                      rect(92, 7, 10, 10);
+                      rect(75, 21, 10, 10);
+                      rect(29, 21, 10, 10);
+                      rect(17, 33, 10, 10);
                       
                       fill(50);
                       rect(17, 154, 10, 10);
@@ -1338,23 +1854,42 @@
                       rect(405, 223, 4, 10);
                       ellipse(405, 219, 7, 7);
                       rect(402, 219, 10, 4);
-                      stroke(70);
-                      strokeWeight(5);
-                      fill(152, 157, 161);
-                      rect(80, 45, 35, 17, 5)
-                      strokeWeight(3);
-                      fill(214, 8, 8);
-                      ellipse(80, 45, 10, 10);
                       
+                      noFill();
+                      stroke(0);
+                      ellipse(409, 216, 7, 7);
                       
-                                
+                      noStroke();
+                      fill(255, 0, 0, 100);
+                      rect(490, 175, 20, 15, 4);
                       
+                      fill(255, 0, 0, lightFade1);
+                      ellipse(490, 175, 14, 10);
+                      
+                      fill(255, 0, 0, lightFade1 - 180);
+                      ellipse(490, 175, 160, 160);
+                      
+                      fill(100);
+                      rect(502, 175, 10, 21, 4);
+                      
+                      if (lighton1) {
+                          if (lightFade1 >= 200) {
+                              lighton1 = false;
+                          } else {
+                              lightFade1 += 20;
+                          }
+                      } else {
+                          if (lightFade1 <= 0) {
+                              lighton1 = true;
+                          } else {
+                              lightFade1 -= 20;
+                          }
+                      }
                       
                       rectMode(CORNER);
-                      stroke(70);
-                      strokeWeight(5);
-                     
                       
+                      stroke(70);
+                      strokeWeight(3);
                       line(80, 140, 80, 177);
                       line(80.5, 140, 90, 126);
                       line(90, 106, 90, 125);
@@ -1362,20 +1897,25 @@
                       line(80, 90, 80, 61);
                       noStroke();
                       
+                      ninja(950, 450, 0.4, 25);
                       
-                      badguy(157, 893, 0.17);
-                      badguy(590, 12, 0.14);
+                      badguy(153, 893, 0.17);
+                      badguy(590, 1015, 0.14);
                       badguy(336, 939, 0.2);
                       
                       boxes(105, 440, 5);
                       boxes(213, 452, 4);
+                      boxes(105, 344, 3);
                       
                       boxes(422, 393, 5);
                       boxes(379, 451, 4);
-                      boxes(250, 250, 3);
+                      boxes(485, 537, 3);
                       
                       boxes(214, 176, 3);
                       boxes(321, 216, 2);
+                      boxes(212, 265, 1.5);
+                      
+                      securityCamera1(911, 432, 153, 1.5);
                       
                   };
                   pushMatrix()
@@ -1421,15 +1961,62 @@
                   ctx.clearRect(0, 0, width, height)
                   rectMode(CORNER)
                   ctx.save();
+                  
                   //main shape
                   {
-                      stroke(7, 90, 173);
-                      strokeWeight(12);
+                      noStroke();
                       fill(0, 0, 0);
-                      ellipse(200,150,120,120);
-                      fill(0, 0, 0);
-                      line(219, 140, 238, 148);
-                      line(251, 180, 225, 180);
+                      rect(107,103,200,200);
+                  }
+                  
+                  //face
+                  {
+                      fill(255, 235, 181);
+                      rect(147,153,160,50);
+                      
+                      //eyes
+                      {
+                          fill(0, 0, 0);
+                          ellipse(203,173,20,23);
+                          ellipse(267,173,20,23);
+                      }
+                      
+                  }
+                  
+                  //headband
+                  {
+                      fill(168, 0, 0);
+                      beginShape();
+                      vertex(99, 133);
+                      bezierVertex(123, 152, 248, 139, 311, 137);
+                      bezierVertex(315, 132, 304, 133, 311, 124);
+                      bezierVertex(229, 120, 153, 130, 103, 128);
+                      endShape();
+                      
+                      fill(128, 10, 10);
+                      beginShape();
+                      vertex(106, 133);
+                      bezierVertex(105, 150, 80, 160, 62, 156);
+                      bezierVertex(80, 142, 95, 134, 103, 128);
+                      endShape();
+                      
+                      fill(168, 0, 0);
+                      beginShape();
+                      vertex(106, 133);
+                      bezierVertex(114, 161, 105, 160, 79, 171);
+                      bezierVertex(93, 152, 95, 134, 103, 128);
+                      endShape();
+                  }
+                  
+                  //belt
+                  {
+                      fill(196, 196, 196);
+                      rect(110, 240, 10, 41);
+                      rect(125, 240, 10, 41);
+                      rect(140, 240, 10, 41);
+                      
+                      fill(64, 64, 64);
+                      rect(107,251,200,20);
                   }
                   ctx.restore();
                   return get(62, 59, 288, 288);
@@ -1526,7 +2113,6 @@
             this.underMouse = false
             this.pressed = false
             this.dragover = false
-            
           }
           run() {
             if(!mouseIsPressed && this.pressed) {
@@ -1538,9 +2124,9 @@
             ctx.save()
             ctx.beginPath()
             ctx.shadowBlur = shBlur
-            ctx.shadowColor = "#075AAD "
+            ctx.shadowColor = "#f00"
             fill(0)
-            stroke(7, 90, 173)
+            stroke(255)
             strokeWeight(5)
             rect(this.x, this.y, this.w, this.h)
 
@@ -1550,11 +2136,11 @@
               textAlign(CENTER, CENTER)
               textSize(25)
               ctx.lineWidth = 2
-              stroke(7, 90, 173)
+              stroke(255, 0, 0)
               ctx.strokeText(this.text, this.x + this.w / 2, this.y + this.h / 2)
             }
             else if(this.icon) {
-              fill(7, 90, 173)
+              fill(255, 0, 0)
               noStroke()
               this.icon(this.x + this.w / 2, this.y + this.h / 2, 23)
             }
@@ -1564,24 +2150,80 @@
 
         /** Faith's sprites */
         var ninja = function(x,y,s){
-          stroke(7, 90, 173);
-                      strokeWeight(12);
-                      fill(0, 0, 0);
-                      ellipse(200,200,200,200);
-                      fill(0, 0, 0);
-                      line(235, 173, 267, 195);
-                      line(289, 239, 252, 239);
+          pushMatrix();
+          scale(s / 200);
+          translate(x,y);
+          translate(-107, -103);
+          
+          noStroke();
+          fill(0, 0, 0);
+
+          rect(107,103,200,200);
+
+          fill(217, 130, 76);
+          rect(153,153,154,50);
+
+          fill(168, 0, 0);
+          rect(107,133,200,20);
+
+          fill(64, 64, 64);
+          rect(107,251,200,20);
+
+          stroke(168, 0, 0);
+          strokeWeight(10);
+          line(86,175,111,140);
+          line(66,160,111,138);
+
+          fill(0, 0, 0);
+          noStroke();
+          ellipse(218,173,20,17);
+          ellipse(282,173,20,17);
+
+          stroke(0, 0, 0);
+          strokeWeight(3);
+          line(236,169,197,159);
+          line(297,168,268,163);
+
+          popMatrix();
 
         };
         var badguy = function(x,y,s){
-          stroke(173, 0, 3);
-                      strokeWeight(3);
-                      fill(0,0,0);
-                      ellipse(35,35,35,35);
-                      fill(0, 0, 0);
-                      strokeWeight(2);
-                      line(39, 30, 46, 34);
-                      line(42, 43, 50, 43);
+          pushMatrix();
+          scale(s / 200);
+          translate(x,y);
+          
+          noStroke();
+          fill(64, 64, 64);
+          
+          rect(107,103,200,200);
+          
+          fill(161, 157, 155);
+          rect(107,153,200,50);
+          
+          fill(64, 64, 64);
+          rect(87,133,240,20);
+          
+          fill(64, 64, 64);
+          rect(107,251,200,20);
+          
+          fill(0, 0, 0);
+          noStroke();
+          ellipse(170,176,40,40);
+          ellipse(260,176,40,40);
+          
+          stroke(0, 0, 0);
+          strokeWeight(3);
+          line(108,176,305,176);
+          
+          fill(0, 0, 0);
+          rect(257,247,27,35);
+          rect(277,239,7,35);
+          
+          fill(36, 36, 36);
+          noStroke();
+          rect(108,254,199,19);
+          
+          popMatrix();
       }
         
 
@@ -2022,13 +2664,12 @@
           }
         }
         
-        
         /** Player class  */
         class Player extends PhysicsObject {
           constructor(x, y, w, h) {
             super(x, y, w, h)
             this.jumpHeight = 12
-            this.maxSpeed = 7
+            this.maxSpeed = 12
             this.xAccel = 0.5
             this.friction = 0
             this.character = true
@@ -2053,7 +2694,7 @@
                   this.velY = -this.jumpHeight
                   this.velX = this.jumpHeight
                 }
-                for(var i = 0; i < 10; i++) {
+                for(var i = 0; i < 3; i++) {
                   particles.push(new Particle(this.x, this.y + random(0, this.h), [255], 50, random(0, 1), random(-1, 0)))
                 }
               }
@@ -2066,7 +2707,7 @@
                   this.velY = -this.jumpHeight
                   this.velX = -this.jumpHeight
                 }
-                for(var i = 0; i < 10; i++) {
+                for(var i = 0; i < 3; i++) {
                   particles.push(new Particle(this.x + this.w, this.y + random(0, this.h), [255], 50, random(-1, 0), random(-1, 0)))
                 }
               }
@@ -2093,7 +2734,7 @@
             scale(this.w / 200)
             translate(-44, -44)
             // const sc = 288 / 200
-            img.display('ninja', 10, 10)
+            img.display('ninja', 0, 0)
             popMatrix()
           }
           collideWithObject(o) {
@@ -2223,7 +2864,7 @@
             fill(255)
             noStroke()
             ctx.shadowBlur = 5
-            ctx.shadowColor = '#075AAD '
+            ctx.shadowColor = '#f00'
             textAlign(CENTER, CENTER)
             textSize(30)
             text(this.msg, this.x, this.y)
@@ -2480,7 +3121,7 @@
             fill(255)
             textAlign(CENTER, CENTER)
             pushMatrix()
-            ctx.shadowColor = "#075AAD"
+            ctx.shadowColor = "#f00"
             ctx.shadowBlur = 10
             textSize(50)
             text("You were caught!", width / 2, height / 2 - 20)
@@ -2498,6 +3139,7 @@
               player.img = null
               levelIndex++
               completedLevels = max(levelIndex, completedLevels)
+              localStorage.setItem("NINJA_VIGIL/completedLevels", completedLevels)
               loadLevel()
             }
           }
@@ -2517,36 +3159,30 @@
           
           homeBtn.run()
         })
-        const backhomefromwin = new Button({
-          x: 250, y: 500, w: 100, h: 40, text: "Home", onClick: () => scene.to('menu')
-        })
+        
         // create win scene
         scene.use('win', () => {
           img.display('backgroundImage', 0, 0)
           fill(0, 200)
           rect(0, 0, width, height)
-          fill(7, 90, 173)
+          fill(255, 0, 0)
           textAlign(CENTER, CENTER)
           textSize(20)
-          text(getCenteredText("Without the diamond, the power of the elites is broken. You are a real Ninja", 300, 300, 450, 0), 300, 300)
-        backhomefromwin.run();
+          text(getCenteredText("Without the diamond, the power of the elites is broken. You take it back to your superiors. When you come into the headquarters, your boss is sitting casually, a tight-lipped smile on his face. \"Good work, agent,\" he says. Suddenly, two large men grab you. The diamond is wrenched from your hands. \"Thank you very much indeed\" your boss says again, and lets out an evil laugh. \"Take him away\" he orders. You are dragged away, about to suffer the fate you thought you had just prevented.", 300, 300, 450, 0), 300, 300)
+          fill(255)
+          text("Tell us in the Tips and Thanks\nthat you finished all the levels!", 300, 500)
         })
-        
         
         // buttons for menu
         const playBtn = new Button({
           x: 225, y: 300, w: 150, h: 50, onClick: () => scene.to('game'), text: "Play"
         })
         const howBtn = new Button({
-          x: 225, y: 370, w: 150, h: 50, onClick: () => scene.to('how'), text: "How"
+          x: 225, y: 380, w: 150, h: 50, onClick: () => scene.to('how'), text: "How"
         })
         const levelsBtn = new Button({
-          x: 225, y: 440, w: 150, h: 50, onClick: () => scene.to('levels'), text: "Levels"
+          x: 225, y: 460, w: 150, h: 50, onClick: () => scene.to('levels'), text: "Levels"
         })
-        const aboutBtn = new Button({
-          x: 225, y: 510, w: 150, h: 50, onClick: () => scene.to('about'), text: "About"
-        })
-        
         // create menu scene
         scene.use('menu', () => {
           img.display('backgroundImage', 0, 0, width, height)
@@ -2557,19 +3193,18 @@
           stroke(255)
           strokeWeight(3)
           // ctx.fillStyle = titleMask
-          ctx.strokeStyle = "#075AAD "
+          ctx.strokeStyle = "#f00"
           ctx.shadowBlur = 5
-          ctx.shadowColor = '#075AAD '
+          ctx.shadowColor = '#f00'
           textSize(80)
-          text("Ninja", 300, 100)
-          text("run", 300, 200)
+          text("Vigil", 300, 100)
+          text("Ninja", 300, 200)
           textSize(20)
-          text("run", 300, 147)
+          text("Of the", 300, 147)
           popMatrix()
           playBtn.run()
           howBtn.run()
           levelsBtn.run()
-          aboutBtn.run()
         })
         
         // buttons for levels scene
@@ -2597,8 +3232,7 @@
             b.run()
             if(completedLevels < i) {
               pushMatrix()
-              fill(178, 137, 59)
-              stroke(178, 137, 59)
+              stroke(255, 0, 0)
               strokeWeight(3)
               line(b.x, b.y, b.x + b.w, b.y + b.h)
               popMatrix()
@@ -2606,29 +3240,6 @@
           })
           homeFromLevels.run()
         })
-        const face = "https://www.facebook.com/phongson.nguyen.9421/"
-        // create levels scene
-        scene.use('about', () => {
-          img.display('backgroundImage', 0, 0, width, height)
-          fill(0, 0, 0, 200)
-          rect(0, 0, width, height)
-          textAlign(CENTER, CENTER)
-          textSize(23)
-          fill(178, 137, 59)
-          ctx.shadowColor = "#075AAD "
-          text(getCenteredText("I make this game in 4 days using Visual Studio Code, and this is my result." , 300, 300, 500, 225), 300, 230)
-          text(getCenteredText("Hope you enjoy the game!" , 300, 300, 550, 225), 300, 273)
-          textSize(27)
-          text(getCenteredText("Make by: Hai Dang",300, 300, 450, 200), 300, 325)
-          textSize(21);
-          text(getCenteredText("Facebook:\n", 300, 300, 450, 200), 300, 400)
-          textSize(17);
-          text(getCenteredText(face, 300, 300, 450, 200), 300, 400)
-            homeFromLevels.run()
-        })
-          
-          
-        
 
         // buttons for how scene
         const homeFromHowBtn = new Button({
@@ -2642,10 +3253,10 @@
           ctx.save()
           textAlign(CENTER, CENTER)
           textSize(23)
-          fill(178, 137, 59)
+          fill(255)
           ctx.shadowBlur = 5
-          ctx.shadowColor = "#075AAD "
-          text(getCenteredText("An evil group has created a magic diamond that gives them power over the world. You have been sent on a misson take the diamond. Let's be a ninja to save the world. \n\n\n Use arrow key to play.", 300, 300, 450, 200), 300, 270)
+          ctx.shadowColor = "#f00"
+          text(getCenteredText("An evil group of conspirators has created a magic diamond that gives them power over the world. You have been sent on a misson by a small group of rebels to infiltrate the stronghold of the elites and steal their diamond. However, it is heavily guarded. You will have to be careful not to alert security or be captured by one of the guards. Avoid cameras. You can grip the wall by pressing an arrow in the direction of the wall while you are on the wall. Press the up arrow while gripping a wall to wall jump.\nGood luck.", 300, 300, 450, 200), 300, 270)
           ctx.restore()
           homeFromHowBtn.run()
         })

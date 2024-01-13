@@ -44,7 +44,6 @@ function newNotch() {
   document.getElementById("notch").style.display = "block";
   document.getElementById("notch").classList.toggle("appear-b");
 }
-
 function setStatus(newStatus) {
   status = newStatus;
   switch (newStatus) {
@@ -93,6 +92,7 @@ function setLevel(newLevel) {
   window.localStorage.setItem("level", level);
 }
 
+
 function click() {
   switch (status) {
     case "start":
@@ -130,9 +130,11 @@ function step() {
 window.requestAnimationFrame(step);
 window.addEventListener("mousedown", click);
 window.addEventListener("touchstart", function(event) {
-  event.preventDefault();
+  if (event.cancelable) {
+    event.preventDefault();
+  }
   click();
-});
+}, { passive: false });
 window.addEventListener("keydown", click);
 
 setLevel(parseInt(window.localStorage.getItem("level")) || 1);
