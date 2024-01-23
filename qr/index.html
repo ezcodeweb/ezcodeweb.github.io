@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="ANSI">
+  <title>Bank qr</title>
+</head>
+<body>
+  <form>
+    <input type="text" id="nganhang" placeholder="Ten ngan hang"/>
+    <input type="text" id="tk" placeholder="So tai khoan"/>
+    <input type="text" id="ten" placeholder="Ten chu tai khoan"/>
+    <input type="text" id="chinhanh" placeholder="Chi nhanh"/>
+    <input type="text" id="cty" placeholder="Ten cong ty"/>
+    <input type="text" id="diadiem" placeholder="Dia chi cong ty: "/>
+    <button onclick="generateQR()">Submit</button>
+  </form>
+  <script type="text/javascript">
+    function generateQR() {
+      var nganhang = document.getElementById('nganhang').value;
+      var tk = document.getElementById('tk').value;
+      var chutk = document.getElementById('ten').value;
+      var diadiem = document.getElementById('chinhanh').value;
+      var ctyy = document.getElementById('cty').value;
+      var diachi = document.getElementById('diadiem').value;
+      var linkqr = 'https://img.vietqr.io/image/' + nganhang.toLowerCase() + '-' + tk + '-qr-only.png';
+      document.writeln('<p>' + ctyy + '</p>')
+      document.writeln('<p>' + diachi + '</p>')
+      document.writeln('<img src="' + linkqr + '"/>');
+      document.writeln('<p> Tên chủ tài khoản: ' + chutk + '</p>')
+      document.writeln('<p> Ngân hàng: ' + nganhang + '</p>')
+      document.writeln('<p> Chi nhánh: ' + diadiem + '</p>')
+      document.write('<img src="logo.jpg" style="width: max-width: 10px;">')
+    }
+  </script>
+</body>
+</html>
