@@ -22,7 +22,13 @@ function kt(str) {
     str = str.replace(/\s/g, '');
     for (let i = 0; i < str.length; i++) {
         if (str[i] === "A") {
-            count += 11;
+            if (kt(str.replace("A", ""))<=10){
+                count += 11;
+            } else if (kt(str.replace("A", ""))>=12){
+                count += 1;
+            } else if (kt(str.replace("A", ""))===11){
+                count += 1;
+            }
         } else if (str[i] === "J" || str[i] === "Q" || str[i] === "K") {
             count += 10;
         } else {
