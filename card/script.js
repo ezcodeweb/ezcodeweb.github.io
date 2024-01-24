@@ -46,15 +46,21 @@ function kt2(str) {
                 return "ace"; 
             } else if(str[0] === "A" && str[1] === "A") {
                 return "special";
+            } else if(str[1] === "A" && kt(str[0]) === 10) {
+                return "ace"; 
+            } else if(str[1] === "A" && str[0] === "A") {
+                return "special";
             } else {
                 return "none";
             }
+        } else {
+            return "none";
         }
     }
 }
 
-let b = random(1) + " ";
-b = random(1) + " ";
+let b = random(1) + " " + random(1) + " ";
+
 document.getElementById("player").innerHTML = b;
 
 btn.addEventListener("click", () => {
@@ -81,7 +87,7 @@ function ai() {
     while (kt(c)<=15){
         c += random(1) + " ";
     }
-    if(kt(c)>=16){
+    if(kt(c)>=16 && kt(c) <= 19){
         let d = hope(1);
         if(d === "1"){
             c += random(1);
