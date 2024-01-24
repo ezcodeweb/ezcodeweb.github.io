@@ -1,6 +1,21 @@
 const btn = document.getElementById("btn");
 const kq = document.getElementById("check");
 
+
+let two = 0;
+let three = 0;
+let four = 0;
+let five = 0;
+let size = 0;
+let seven = 0;
+let eight = 0;
+let nine = 0;
+let ten = 0;
+let J = 0;
+let Q = 0;
+let K = 0;
+let A = 0;
+
 function random(length) {
     let result = '';
     const characters = '123456789JQKA';
@@ -10,6 +25,84 @@ function random(length) {
         let temp = characters.charAt(Math.floor(Math.random() * charactersLength));
         if (temp === "1") {
             temp = "10";
+        } else if(temp === "2") {
+            if(two===4){
+                random(length);
+            } else {
+                two+=1;
+            }
+        } else if(temp === "3") {
+            if(three===4){
+                random(length);
+            } else {
+                three+=1;
+            }
+        } else if(temp === "4") {
+            if(four===4){
+                random(length);
+            } else {
+                four+=1;
+            }
+        } else if(temp === "5") {
+            if(five===4){
+                random(length);
+            } else {
+                five+=1;
+            }
+        } else if(temp === "6") {
+            if(six===4){
+                random(length);
+            } else {
+                six+=1;
+            }
+        } else if(temp === "7") {
+            if(seven===4){
+                random(length);
+            } else {
+                seven+=1;
+            }
+        } else if(temp === "8") {
+            if(eight===4){
+                random(length);
+            } else {
+                eight+=1;
+            }
+        } else if(temp === "9") {
+            if(nine===4){
+                random(length);
+            } else {
+                nine+=1;
+            }
+        } else if(temp === "10") {
+            if(ten===4){
+                random(length);
+            } else {
+                ten+=1;
+            }
+        } else if(temp === "J") {
+            if(J===4){
+                random(length);
+            } else {
+                J+=1;
+            }
+        } else if(temp === "Q") {
+            if(Q===4){
+                random(length);
+            } else {
+                Q+=1;
+            }
+        } else if(temp === "K") {
+            if(K===4){
+                random(length);
+            } else {
+                K+=1;
+            }
+        } else if(temp === "A") {
+            if(A===4){
+                random(length);
+            } else {
+                A+=1;
+            }
         }
         result += temp;
         counter += 1;
@@ -27,7 +120,7 @@ function kt(str) {
             } else if (kt(str.replace("A", ""))>=12){
                 count += 1;
             } else if (kt(str.replace("A", ""))===11){
-                count += 1;
+                count += 10;
             }
         } else if (str[i] === "J" || str[i] === "Q" || str[i] === "K") {
             count += 10;
@@ -87,7 +180,7 @@ function ai() {
     while (kt(c)<=15){
         c += random(1) + " ";
     }
-    if(kt(c)>=16 && kt(c) <= 19){
+    if(kt(c)>=16 && kt(c) <= 18){
         let d = hope(1);
         if(d === "1"){
             c += random(1);
@@ -96,11 +189,21 @@ function ai() {
     document.getElementById("bot").innerHTML = c;
 }
 
+function fifth(d) {
+    d = d.replace(/\s/g, '');
+    if(d.length === 5 && kt(d) <= 21) {
+        return "mega";
+    } else {
+        return none;
+    }
+}
+
 kq.addEventListener("click", () => {
     let diem = kt(b);
     let diem2 = kt(c);
     let win = kt2(c);
     let win2 = kt2(b);
+    let ngu = fifth(c);
     if(win === "ace" && win2 === "ace") {
         ai();
         document.getElementById("note").innerHTML = "Draw";
