@@ -194,7 +194,7 @@ function fifth(d) {
     if(d.length === 5 && kt(d) <= 21) {
         return "mega";
     } else {
-        return none;
+        return "none";
     }
 }
 
