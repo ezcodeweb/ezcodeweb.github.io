@@ -124,6 +124,9 @@ function kt(str) {
             }
         } else if (str[i] === "J" || str[i] === "Q" || str[i] === "K") {
             count += 10;
+        } else if (str[i] === "1" && str[i+1]=== "0") {
+            count += 10;
+            i+=1;
         } else {
             count += parseInt(str[i]);
         }
@@ -198,7 +201,8 @@ function fifth(d) {
     }
 }
 
-kq.addEventListener("click", () => {
+function dapan() {
+    
     let diem = kt(b);
     let diem2 = kt(c);
     let win = kt2(c);
@@ -238,18 +242,38 @@ kq.addEventListener("click", () => {
     } else if (ngu === "mega" && ngu2 === "none") {
         ai();
         document.getElementById("note").innerHTML = "You lose";
-    } else if(kt(c)>21 && kt(b) < 22 && kt(b) > 15){
-        ai();
-        document.getElementById("note").innerHTML = "You win";
-    } else if(kt(c)===kt(b)){
+    } else if(diem === diem2){
         ai();
         document.getElementById("note").innerHTML = "Draw";
-    } else if (diem > 21 || diem < 16 || diem < diem2) {
+    } else if(diem > 21 && diem2 > 21){
+        ai();
+        document.getElementById("note").innerHTML = "Draw";
+    } else if (diem2 > 21 || diem2 < 16) {
+        ai();
+        document.getElementById("note").innerHTML = "You win";
+    } else if (diem > 21 || diem < 16) {
         ai();
         document.getElementById("note").innerHTML = "You lose";
+    } else if (diem > diem2 && diem<=21) {
+        ai();
+        document.getElementById("note").innerHTML = "You win";
+    } else if (diem < diem2 && diem2<=21) {
+        ai();
+        document.getElementById("note").innerHTML = "You lose";
+    } else if (diem > diem2 && diem>21) {
+        ai();
+        document.getElementById("note").innerHTML = "You lose";
+    } else if (diem2 > diem && diem2>21) {
+        ai();
+        document.getElementById("note").innerHTML = "You win";
     } else {
         ai();
         document.getElementById("note").innerHTML = "You win";
     }
+}
+
+kq.addEventListener("click", () => {
+    dapan();
+    dapan();
 });
 
