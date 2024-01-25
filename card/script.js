@@ -6,7 +6,7 @@ let two = 0;
 let three = 0;
 let four = 0;
 let five = 0;
-let size = 0;
+let six = 0;
 let seven = 0;
 let eight = 0;
 let nine = 0;
@@ -204,6 +204,7 @@ kq.addEventListener("click", () => {
     let win = kt2(c);
     let win2 = kt2(b);
     let ngu = fifth(c);
+    let ngu2 = fifth(b);
     if(win === "ace" && win2 === "ace") {
         ai();
         document.getElementById("note").innerHTML = "Draw";
@@ -231,6 +232,12 @@ kq.addEventListener("click", () => {
     } else if (win === "none" && win2 === "special") {
         ai();
         document.getElementById("note").innerHTML = "You win";
+    } else if (ngu === "none" && ngu2 === "mega") {
+        ai();
+        document.getElementById("note").innerHTML = "You win";
+    } else if (ngu === "mega" && ngu2 === "none") {
+        ai();
+        document.getElementById("note").innerHTML = "You lose";
     } else if(kt(c)>21 && kt(b) < 22 && kt(b) > 15){
         ai();
         document.getElementById("note").innerHTML = "You win";
